@@ -21,6 +21,8 @@
     "check": "npm run lint && npm run typecheck && npm run typecheck:convex && npm run test && npm run build"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.2",
+    "@next/third-parties": "^16.3.0",
     "convex": "1.42.3",
     "gray-matter": "4.0.3",
     "next": "16.3.0",

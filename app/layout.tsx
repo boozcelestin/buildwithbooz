@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { ReactNode } from "react";
 
+import { ClarityInit } from "@/src/components/site/ClarityInit";
 import { LocalBusinessJsonLd } from "@/src/components/site/LocalBusinessJsonLd";
 import { getSiteUrl, siteDescription, siteName } from "@/src/lib/site";
 
@@ -43,6 +45,11 @@ export const metadata: Metadata = {
     title: siteName,
     description: siteDescription,
   },
+  verification: {
+    other: {
+      "msvalidate.01": "84AF155FA6459051175EBA620F93D50A",
+    },
+  },
 };
 
 export const viewport: Viewport = {
@@ -56,10 +63,12 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en" className={`${hankenGrotesk.variable} ${ibmPlexMono.variable}`}>
       <body>
         <LocalBusinessJsonLd />
+        <ClarityInit />
         <a className="skip-link" href="#main">
           Skip to content
         </a>
         {children}
+        <GoogleAnalytics gaId="G-46RJX0G3N6" />
       </body>
     </html>
   );

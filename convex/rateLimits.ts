@@ -7,6 +7,10 @@ const oneHour = 60 * 60 * 1000;
 const tenMinuteLimit = 8;
 const hourlyLimit = 30;
 
+export function isRateLimited(tenMinuteCount: number, hourCount: number) {
+  return tenMinuteCount >= tenMinuteLimit || hourCount >= hourlyLimit;
+}
+
 async function readCount(
   context: MutationCtx,
   ip: string,
@@ -35,10 +39,7 @@ export const checkRateLimit = mutation({
     );
     const hourRecord = await readCount(context, args.ip, args.route, -hourWindow);
 
-    if (
-      (tenMinuteRecord?.count ?? 0) >= tenMinuteLimit ||
-      (hourRecord?.count ?? 0) >= hourlyLimit
-    ) {
+    if (isRateLimited(tenMinuteRecord?.count ?? 0, hourRecord?.count ?? 0)) {
       return { allowed: false };
     }
 
