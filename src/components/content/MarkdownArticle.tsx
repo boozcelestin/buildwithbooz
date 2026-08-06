@@ -22,9 +22,6 @@ export function MarkdownArticle({ entry, label = "Article" }: MarkdownArticlePro
         By {entry.frontmatter.author ?? "Booz"}
         {formattedDate ? ` · ${formattedDate}` : null}
       </p>
-      <p className="placeholder-note">
-        Placeholder layout · real writing replaces every paragraph below
-      </p>
       <div className="art-body">
         <ReactMarkdown
           components={{

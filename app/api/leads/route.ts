@@ -6,6 +6,7 @@ import { buildGapFinderAnswers, getGoalId } from "@/src/features/gap-finder/ques
 import { rankLeaks } from "@/src/features/gap-finder/ranking";
 import type { LeadSource } from "@/src/features/leads/types";
 import { parseLeadSubmission } from "@/src/features/leads/validation";
+import { getClientIp, verifyTurnstileToken } from "@/src/lib/turnstile";
 
 function getLeadSource(
   formKind: "contact" | "enterprise",
@@ -32,6 +33,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 
+  const rawBody = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
+  const turnstileToken = typeof rawBody.turnstileToken === "string" ? rawBody.turnstileToken : "";
+  const ip = getClientIp(request);
+
+  if (!(await verifyTurnstileToken(turnstileToken, ip))) {
+    return NextResponse.json({ ok: false }, { status: 400 });
+  }
+
   const submission = parseLeadSubmission(body);
 
   if (!submission) {
@@ -49,6 +58,15 @@ export async function POST(request: Request) {
   const calculator = submission.context?.calculator;
 
   try {
+    const rate = await client.mutation(api.rateLimits.checkRateLimit, {
+      ip,
+      route: "/api/leads",
+    });
+
+    if (!rate.allowed) {
+      return NextResponse.json({ ok: false }, { status: 429 });
+    }
+
     if (gapFinder) {
       const answers = buildGapFinderAnswers(gapFinder.optionIds);
       const goal = getGoalId(gapFinder.optionIds);

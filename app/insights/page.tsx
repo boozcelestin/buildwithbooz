@@ -74,26 +74,26 @@ export default async function InsightsPage() {
           ))}
         </div>
 
-        <div className="ins-label">
-          <p className="eyebrow">White paper</p>
-        </div>
         {whitePaper ? (
-          <div className="blog-grid">
-            <ContentCard
-              bars={[
-                { color: "ink", width: "60%" },
-                { width: "100%" },
-                { width: "85%" },
-                { color: "yellow", width: "40%" },
-              ]}
-              href={`/insights/${whitePaper.slug}`}
-              label="White paper"
-              title={whitePaper.frontmatter.title}
-            />
-          </div>
+          <>
+            <div className="ins-label">
+              <p className="eyebrow">White paper</p>
+            </div>
+            <div className="blog-grid">
+              <ContentCard
+                bars={[
+                  { color: "ink", width: "60%" },
+                  { width: "100%" },
+                  { width: "85%" },
+                  { color: "yellow", width: "40%" },
+                ]}
+                href={`/insights/${whitePaper.slug}`}
+                label="White paper"
+                title={whitePaper.frontmatter.title}
+              />
+            </div>
+          </>
         ) : null}
-
-        <p className="comingsoon">The first pieces are on the way.</p>
 
         <div className="ins-label">
           <p className="eyebrow">Case studies</p>

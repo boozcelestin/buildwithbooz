@@ -75,7 +75,7 @@ describe("Stripe assessment checkout", () => {
       payment_intent_data: { metadata: { purchase: "automation_assessment" } },
     });
     expect(session.success_url).toBe(
-      "https://buildwithbooz.com/services?checkout=success#assessment-title",
+      "https://buildwithbooz.com/assessment/thank-you?session_id=%7BCHECKOUT_SESSION_ID%7D",
     );
     expect(session.cancel_url).toBe(
       "https://buildwithbooz.com/services?checkout=cancelled#assessment-title",

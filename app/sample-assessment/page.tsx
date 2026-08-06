@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { ButtonLink } from "@/src/components/site/ButtonLink";
+import { SiteFooter } from "@/src/components/site/SiteFooter";
 import { SiteHeader } from "@/src/components/site/SiteHeader";
 import { createPageMetadata } from "@/src/lib/site";
 
@@ -152,8 +154,20 @@ export default function SampleAssessmentPage() {
               changes. Confirming these is the first step of the paid assessment.
             </p>
           </section>
+
+          <section className="rp-sec rp-cta">
+            <h2 className="eyebrow">Ready for your own?</h2>
+            <p className="rp-body">
+              This is an illustrative example. Yours is built on your real numbers, the same
+              deliverable, ranked for your shop.
+            </p>
+            <ButtonLink href="/services#assessment-title" size="md">
+              See the assessment and start
+            </ButtonLink>
+          </section>
         </article>
       </main>
+      <SiteFooter />
     </>
   );
 }

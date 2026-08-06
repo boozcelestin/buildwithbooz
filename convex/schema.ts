@@ -59,4 +59,45 @@ export default defineSchema({
   })
     .index("by_submission_token", ["submissionToken"])
     .index("by_email", ["email"]),
+  assessmentOrders: defineTable({
+    stripeSessionId: v.string(),
+    stripeEventId: v.string(),
+    email: v.string(),
+    amount: v.number(),
+    purchase: v.string(),
+    emailSentAt: v.union(v.number(), v.null()),
+    emailStatus: v.union(v.literal("queued"), v.literal("sent"), v.literal("failed")),
+    emailAttempts: v.number(),
+    emailLastError: v.optional(v.string()),
+    resendEmailId: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_stripe_session_id", ["stripeSessionId"])
+    .index("by_stripe_event_id", ["stripeEventId"]),
+  assessmentIntake: defineTable({
+    stripeSessionId: v.string(),
+    orderId: v.id("assessmentOrders"),
+    name: v.string(),
+    email: v.string(),
+    trade: v.string(),
+    businessName: v.union(v.string(), v.null()),
+    website: v.union(v.string(), v.null()),
+    phone: v.union(v.string(), v.null()),
+    monthlyLeads: v.union(v.string(), v.null()),
+    averageJobValue: v.union(v.string(), v.null()),
+    leadSources: v.union(v.string(), v.null()),
+    busyCallHandling: v.union(v.string(), v.null()),
+    quoteFollowUp: v.union(v.string(), v.null()),
+    currentTools: v.union(v.string(), v.null()),
+    biggestOpportunity: v.union(v.string(), v.null()),
+    anythingElse: v.union(v.string(), v.null()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_stripe_session_id", ["stripeSessionId"]),
+  rateLimits: defineTable({
+    ip: v.string(),
+    route: v.string(),
+    windowStart: v.number(),
+    count: v.number(),
+  }).index("by_ip_route_window", ["ip", "route", "windowStart"]),
 });

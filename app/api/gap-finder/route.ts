@@ -6,6 +6,7 @@ import { getCalculatorDefinition } from "@/src/features/calculators/definitions"
 import { buildGapFinderAnswers, getGoalId } from "@/src/features/gap-finder/questions";
 import { rankLeaks } from "@/src/features/gap-finder/ranking";
 import type { GapFinderSourceContext } from "@/src/features/gap-finder/types";
+import { getClientIp, verifyTurnstileToken } from "@/src/lib/turnstile";
 
 const completionTokenPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -15,6 +16,7 @@ type SubmissionBody = {
   optionIds?: unknown;
   email?: unknown;
   sourceContext?: unknown;
+  turnstileToken?: unknown;
 };
 
 function readSourceContext(value: unknown): GapFinderSourceContext | null | undefined {
@@ -54,6 +56,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 
+  const turnstileToken = typeof body.turnstileToken === "string" ? body.turnstileToken : "";
+  const ip = getClientIp(request);
+
+  if (!(await verifyTurnstileToken(turnstileToken, ip))) {
+    return NextResponse.json({ ok: false }, { status: 400 });
+  }
+
   if (
     typeof body.completionToken !== "string" ||
     !completionTokenPattern.test(body.completionToken) ||
@@ -90,6 +99,15 @@ export async function POST(request: Request) {
   const client = new ConvexHttpClient(convexUrl);
 
   try {
+    const rate = await client.mutation(api.rateLimits.checkRateLimit, {
+      ip,
+      route: "/api/gap-finder",
+    });
+
+    if (!rate.allowed) {
+      return NextResponse.json({ ok: false }, { status: 429 });
+    }
+
     const completionId = await client.mutation(api.gapFinder.submitGapFinder, {
       completionToken: body.completionToken,
       answers,

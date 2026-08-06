@@ -51,9 +51,8 @@ export function buildAssessmentCheckoutSession(
   priceId: string,
   siteOrigin: string,
 ): Stripe.Checkout.SessionCreateParams {
-  const successUrl = new URL("/services", siteOrigin);
-  successUrl.searchParams.set("checkout", "success");
-  successUrl.hash = "assessment-title";
+  const successUrl = new URL("/assessment/thank-you", siteOrigin);
+  successUrl.searchParams.set("session_id", "{CHECKOUT_SESSION_ID}");
 
   const cancelUrl = new URL("/services", siteOrigin);
   cancelUrl.searchParams.set("checkout", "cancelled");

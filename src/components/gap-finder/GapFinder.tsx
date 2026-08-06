@@ -4,6 +4,7 @@ import Link from "next/link";
 import { type FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 import { ButtonLink } from "@/src/components/site/ButtonLink";
+import { TurnstileWidget } from "@/src/components/forms/TurnstileWidget";
 import {
   gapFinderQuestions,
   getAnswerLabel,
@@ -19,12 +20,13 @@ async function storeCompletion(
   completionToken: string,
   optionIds: string[],
   email: string | null,
+  turnstileToken: string,
   sourceContext?: GapFinderSourceContext,
 ) {
   const response = await fetch("/api/gap-finder", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ completionToken, optionIds, email, sourceContext }),
+    body: JSON.stringify({ completionToken, optionIds, email, sourceContext, turnstileToken }),
     keepalive: true,
   });
 
@@ -67,6 +69,8 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
   const [completionToken, setCompletionToken] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [emailStatus, setEmailStatus] = useState<EmailStatus>("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [emailError, setEmailError] = useState("");
   const questionHeadingRef = useRef<HTMLHeadingElement>(null);
   const resultHeadingRef = useRef<HTMLHeadingElement>(null);
   const complete = optionIds.length === gapFinderQuestions.length;
@@ -102,25 +106,27 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
     setOptionIds(nextOptionIds);
 
     if (nextOptionIds.length === gapFinderQuestions.length) {
-      const token = crypto.randomUUID();
-      setCompletionToken(token);
-      void storeCompletion(token, nextOptionIds, null, sourceContext).catch(() => undefined);
+      setCompletionToken(crypto.randomUUID());
     }
   }
 
   async function submitEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!completionToken || emailStatus !== "idle") {
+    if (!completionToken || emailStatus !== "idle" || !turnstileToken) {
+      if (!turnstileToken) {
+        setEmailError("Please complete the security check.");
+      }
       return;
     }
 
     setEmailStatus("saving");
 
     try {
-      await storeCompletion(completionToken, optionIds, email, sourceContext);
+      await storeCompletion(completionToken, optionIds, email, turnstileToken, sourceContext);
       setEmailStatus("saved");
     } catch {
+      setEmailError("We could not send your results. Please try again.");
       setEmailStatus("idle");
     }
   }
@@ -227,6 +233,8 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
                           Send it
                         </button>
                       </div>
+                      <TurnstileWidget onToken={(token) => { setTurnstileToken(token); setEmailError(""); }} />
+                      {emailError ? <p aria-live="assertive" role="alert">{emailError}</p> : null}
                     </form>
                   )}
                 </div>

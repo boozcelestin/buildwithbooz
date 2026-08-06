@@ -4,6 +4,8 @@ import { type FormEvent, useRef, useState } from "react";
 
 import type { LeadContext, LeadFormKind } from "@/src/features/leads/types";
 
+import { TurnstileWidget } from "./TurnstileWidget";
+
 type LeadFormProps = {
   context?: LeadContext;
   kind: LeadFormKind;
@@ -17,6 +19,8 @@ function formText(data: FormData, name: string) {
 export function LeadForm({ context, kind }: LeadFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [formError, setFormError] = useState("");
   const submissionToken = useRef<string | null>(null);
   const enterprise = kind === "enterprise";
 
@@ -44,6 +48,7 @@ export function LeadForm({ context, kind }: LeadFormProps) {
           company: formText(data, "company"),
           businessType: formText(data, "businessType"),
           message: formText(data, "message"),
+          turnstileToken,
           ...(context ? { context } : {}),
         }),
       });
@@ -54,6 +59,7 @@ export function LeadForm({ context, kind }: LeadFormProps) {
 
       setSubmitted(true);
     } catch {
+      setFormError("We could not send your message. Please try again.");
       setSubmitting(false);
     }
   }
@@ -165,6 +171,8 @@ export function LeadForm({ context, kind }: LeadFormProps) {
         />
       </div>
 
+      <TurnstileWidget onToken={setTurnstileToken} />
+      {formError ? <p aria-live="assertive" className="form-error" role="alert">{formError}</p> : null}
       <button className="btn btn-primary btn-lg btn-block" disabled={submitting} type="submit">
         Send it
       </button>
