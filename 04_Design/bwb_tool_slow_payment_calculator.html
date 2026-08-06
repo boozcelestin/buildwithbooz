@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slow Payment and Unpaid Invoice Calculator for Trades | BuildWithBooz</title>
+<meta name="description" content="See what late and unpaid invoices are costing your trades business every year. Free calculator.">
+<meta name="theme-color" content="#FAFAF8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111111'/%3E%3Ctext x='7' y='24' font-family='Arial,sans-serif' font-size='20' font-weight='600' fill='%23FAFAF8'%3EB%3C/text%3E%3Crect x='21' y='7' width='5' height='5' fill='%23F2C522'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BUILDWITHBOOZ · FREE TOOL PAGE · V9 VISUAL SYSTEM
+   Shared skeleton for all six calculators. Warm white paper,
+   ink #111, yellow for action and accents, green for a good
+   result, red only for clearly bad news. Hanken Grotesk text,
+   IBM Plex Mono labels, data, and meta.
+   ============================================================ */
+:root{
+  --ink:#111111;
+  --paper:#FAFAF8;
+  --card:#FFFFFF;
+  --dark:#111111;
+  --panel:#1a1a1a;
+  --panel-line:#2a2a2a;
+  --yellow:#F2C522;
+  --yellow-soft:rgba(242,197,34,.22);
+  --red:#E53935;
+  --red-dark:#FF6B5E;
+  --green:#22C55E;
+  --line:#EAE9E3;
+  --line-strong:#D9D8D1;
+  --wash:#F3F2EC;
+  --muted:#6b6b6b;
+  --body:#333333;
+  --font:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --fs-h1:clamp(28px,4vw,44px);
+  --fs-small:14px;
+  --fs-label:12px;
+  --fs-micro:12px;
+  --r-sm:6px; --r-md:8px;
+  --shadow-card:0 1px 2px rgba(10,10,10,.04);
+  --shadow-lift:0 10px 30px rgba(10,10,10,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font);background:var(--paper);color:var(--ink);
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+button{font-family:inherit;cursor:pointer;}
+a{color:inherit;}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:2px;}
+.dark-zone :focus-visible{outline-color:var(--yellow);}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
+}
+.wrap{max-width:720px;margin:0 auto;padding:64px 24px 0;}
+
+/* head */
+.eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:500;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink);}
+.eyebrow::before{content:'';display:inline-block;width:7px;height:7px;background:var(--yellow);vertical-align:baseline;margin-right:9px;}
+.page-h1{font-size:var(--fs-h1);font-weight:600;text-transform:uppercase;letter-spacing:-1.2px;line-height:1.05;margin-top:16px;}
+.page-sub{font-size:16px;color:var(--muted);margin-top:12px;max-width:560px;line-height:1.65;}
+
+/* input card */
+.tool-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:28px;box-shadow:var(--shadow-card);margin-top:32px;
+}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:20px 18px;}
+.field{display:flex;flex-direction:column;gap:8px;}
+.field label{font-family:var(--mono);font-size:var(--fs-label);font-weight:500;color:var(--body);text-transform:uppercase;letter-spacing:.5px;line-height:1.5;}
+.igroup{
+  display:flex;align-items:center;margin-top:auto;
+  border:1.5px solid var(--line-strong);border-radius:var(--r-sm);background:var(--card);
+  transition:border-color .18s ease-out,box-shadow .18s ease-out;
+}
+.igroup:focus-within{border-color:var(--yellow);box-shadow:0 0 0 3px var(--yellow-soft);}
+.igroup .affix{font-family:var(--mono);font-size:15px;color:#999;padding-left:14px;flex-shrink:0;}
+.igroup .affix.suf{padding-left:0;padding-right:14px;}
+.igroup input{
+  font-family:var(--mono);font-size:16px;color:var(--ink);
+  border:none;background:transparent;width:100%;min-width:0;
+  padding:13px 14px;outline:none;
+}
+.igroup .affix + input{padding-left:6px;}
+.igroup input.has-suf{padding-right:6px;}
+.igroup input::-webkit-outer-spin-button,.igroup input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+.igroup input[type=number]{-moz-appearance:textfield;appearance:textfield;}
+
+/* calculate button */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-weight:600;letter-spacing:.6px;text-transform:uppercase;
+  border:none;border-radius:0;text-decoration:none;white-space:nowrap;
+  transition:transform .18s ease-out,background .18s ease-out;
+}
+.btn-primary{background:var(--yellow);color:#000;}
+.btn-primary:hover{transform:translateY(-1px);background:#E9BC1B;}
+.btn-primary:active{transform:translateY(0);}
+.btn-md{padding:14px 24px;font-size:13px;}
+.btn-lg{padding:17px 30px;font-size:14px;letter-spacing:.9px;}
+.btn-block{width:100%;}
+.btn-wrap{white-space:normal;text-align:center;line-height:1.4;}
+.btn-mono{font-family:var(--mono);letter-spacing:1.1px;}
+.calc-btn{margin-top:24px;}
+
+/* text link */
+.tlink{
+  display:inline-block;font-size:15px;font-weight:600;color:var(--ink);
+  text-decoration:none;border-bottom:2px solid var(--yellow);padding-bottom:2px;
+}
+.tlink:hover{border-bottom-color:var(--ink);}
+
+/* dark result card */
+.result-card{
+  background:var(--dark);border-radius:var(--r-md);padding:26px 28px;color:#fff;
+  box-shadow:var(--shadow-lift);margin-top:18px;
+}
+.result-big{
+  font-family:var(--mono);font-weight:600;letter-spacing:-1.5px;line-height:1.05;
+  font-size:clamp(38px,7vw,56px);color:#fff;
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+}
+.result-big.good{color:var(--green);}
+.result-big.bad{color:var(--red-dark);}
+.result-side{font-family:var(--mono);font-size:20px;font-weight:600;letter-spacing:-.5px;color:#9a9a9a;}
+.result-msg{font-size:15px;color:#c9c9c9;line-height:1.7;margin-top:14px;}
+.result-msg strong{color:#fff;font-weight:600;}
+.verdict{
+  margin-top:16px;background:var(--panel);border:1px solid var(--panel-line);
+  border-left:3px solid var(--yellow);border-radius:var(--r-sm);
+  padding:13px 16px;font-size:13.5px;color:#d4d4d4;line-height:1.65;
+}
+.result-prompt{font-family:var(--mono);font-size:13px;color:#8a8a8a;letter-spacing:.3px;line-height:1.7;padding:6px 0;}
+
+/* insight */
+.insight{margin-top:24px;font-size:15.5px;line-height:1.7;color:var(--body);position:relative;padding-left:22px;max-width:640px;}
+.insight::before{content:'';position:absolute;left:0;top:.5em;width:8px;height:8px;background:var(--yellow);}
+
+/* call to action */
+.cta{margin-top:30px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
+
+/* faq */
+.faq{margin-top:56px;border-top:1px solid var(--line);}
+.faq-item{padding:22px 0;border-bottom:1px solid var(--line);}
+.faq-q{font-size:16px;font-weight:600;letter-spacing:-.2px;line-height:1.4;}
+.faq-a{font-size:14.5px;color:var(--muted);line-height:1.7;margin-top:8px;max-width:620px;}
+
+/* footer wordmark */
+.site-footer{border-top:1px solid var(--line);background:var(--paper);margin-top:64px;}
+.footer-inner{max-width:720px;margin:0 auto;padding:28px 24px;}
+.logo{
+  font-size:15px;font-weight:500;letter-spacing:-.012em;
+  color:var(--ink);text-decoration:none;white-space:nowrap;font-family:var(--font);
+}
+.ld{position:relative;display:inline-block;font-style:normal;}
+.ld::after{
+  content:'';position:absolute;left:50%;transform:translateX(-50%);
+  top:.07em;width:.13em;height:.13em;background:var(--yellow);
+}
+
+@media (max-width:700px){
+  .wrap{padding-top:44px;}
+  .fields{grid-template-columns:1fr;}
+  .tool-card{padding:22px;}
+  .result-card{padding:22px;}
+  .cta{flex-direction:column;align-items:stretch;text-align:center;}
+  .cta .btn{white-space:normal;line-height:1.4;}
+}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+
+  <p class="eyebrow">Free Tool</p>
+  <h1 class="page-h1">Slow Payment Calculator</h1>
+  <p class="page-sub">See what late and unpaid invoices are really costing you.</p>
+
+  <div class="tool-card">
+    <div class="fields">
+      <div class="field">
+        <label for="invoices">Invoices you send in a month</label>
+        <div class="igroup">
+          <input type="number" id="invoices" value="30" min="0" step="any" inputmode="decimal">
+        </div>
+      </div>
+      <div class="field">
+        <label for="invamount">Average invoice amount</label>
+        <div class="igroup">
+          <span class="affix" aria-hidden="true">$</span><input type="number" id="invamount" value="600" min="0" step="any" inputmode="decimal">
+        </div>
+      </div>
+      <div class="field">
+        <label for="neverpaid">Percent of invoices that never get paid</label>
+        <div class="igroup">
+          <input class="has-suf" type="number" id="neverpaid" value="5" min="0" step="any" inputmode="decimal"><span class="affix suf" aria-hidden="true">%</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="paidlate">Percent of invoices that get paid late</label>
+        <div class="igroup">
+          <input class="has-suf" type="number" id="paidlate" value="30" min="0" step="any" inputmode="decimal"><span class="affix suf" aria-hidden="true">%</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-lg btn-block btn-mono btn-wrap calc-btn" id="calcbtn" type="button">Show me the number</button>
+  </div>
+
+  <div class="result-card dark-zone" aria-live="polite">
+    <div id="resultbody">
+      <p class="result-big bad" id="bignum">·</p>
+      <p class="result-msg">You are writing off about <strong id="r1"></strong> a month in invoices that never get paid. That is close to <strong id="r2"></strong> a year, gone. On top of that, roughly <strong id="r3"></strong> invoices a month get paid late, tying up cash you have already earned.</p>
+
+    </div>
+    <p class="result-prompt" id="resultprompt" hidden>Fill in each field above to see your number.</p>
+  </div>
+
+  <p class="insight">Most unpaid and late invoices are not bad customers. They are busy ones who let it slip. Automatic reminders and a pay by text link get most invoices paid faster, and shrink the pile that never gets paid at all.</p>
+
+  <div class="cta">
+    <a href="#" class="btn btn-primary btn-md btn-wrap">See where else your business is leaking</a>
+    <a href="#" class="tlink">Or tell me what you are dealing with</a>
+  </div>
+
+  <section class="faq">
+    <div class="faq-item">
+      <h2 class="faq-q">Why count late payments if they eventually pay?</h2>
+      <p class="faq-a">Money you earned but have not collected is money you cannot use. Late payments quietly strangle cash flow even when nothing is written off.</p>
+    </div>
+    <div class="faq-item">
+      <h2 class="faq-q">How do reminders help?</h2>
+      <p class="faq-a">Most people pay the moment it is easy and top of mind. A gentle automatic reminder with a payment link does both, so you are not the one chasing.</p>
+    </div>
+    <div class="faq-item">
+      <h2 class="faq-q">What fixes this?</h2>
+      <p class="faq-a">Automatic invoice reminders and a tap to pay link. That is the Invoice and Payment system.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <a class="logo" aria-label="BuildWithBooz" href="#"><span aria-hidden="true">Bu<span class="ld">&#305;</span>ldW<span class="ld">&#305;</span>thBooz</span></a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  function val(id){
+    var v = parseFloat(document.getElementById(id).value);
+    return isNaN(v) ? 0 : v;
+  }
+  function fmt(n){
+    var r = Math.round(n);
+    var s = '$' + Math.abs(r).toLocaleString('en-US');
+    return r < 0 ? '−' + s : s;
+  }
+  function fmt2(n){
+    var s = '$' + Math.abs(n).toFixed(2);
+    return n < 0 ? '−' + s : s;
+  }
+  function fmtInt(n){
+    return Math.round(n).toLocaleString('en-US');
+  }
+  function fmtRaw(n){
+    return Number(n).toLocaleString('en-US',{maximumFractionDigits:1});
+  }
+  function setText(id, t){ document.getElementById(id).textContent = t; }
+  function show(ok){
+    document.getElementById('resultbody').hidden = !ok;
+    document.getElementById('resultprompt').hidden = ok;
+  }
+  function calc(){
+    var invoices = val('invoices'), invAmount = val('invamount'), neverPaid = val('neverpaid'), paidLate = val('paidlate');
+    if (!invoices || !invAmount || !neverPaid || !paidLate){ show(false); return; }
+    var writtenOffPerMonth = invoices * (neverPaid / 100) * invAmount;
+    var writtenOffPerYear = writtenOffPerMonth * 12;
+    var latePerMonth = invoices * (paidLate / 100);
+    setText('bignum', fmt(writtenOffPerMonth));
+    setText('r1', fmt(writtenOffPerMonth));
+    setText('r2', fmt(writtenOffPerYear));
+    setText('r3', fmtInt(latePerMonth));
+    show(true);
+  }
+  document.getElementById('calcbtn').addEventListener('click', calc);
+  var inputs = document.querySelectorAll('.igroup input');
+  for (var i = 0; i < inputs.length; i++){
+    inputs[i].addEventListener('keydown', function(e){
+      if (e.key === 'Enter'){ e.preventDefault(); calc(); }
+    });
+  }
+  calc();
+})();
+</script>
+
+</body>
+</html>

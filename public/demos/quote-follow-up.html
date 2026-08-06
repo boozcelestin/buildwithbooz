@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildWithBooz Demo. Quote and Follow Up System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BUILDWITHBOOZ · DEMO · QUOTE AND FOLLOW UP SYSTEM
+   V9 visual system. Paper surface, ink 111111, yellow F2C522
+   for action, green 22C55E for success. Hanken Grotesk text,
+   IBM Plex Mono labels and meta.
+   ============================================================ */
+:root{
+  --ink:#111111;
+  --paper:#FAFAF8;
+  --card:#FFFFFF;
+  --yellow:#F2C522;
+  --red:#E53935;
+  --green:#22C55E;
+  --line:#EAE9E3;
+  --line-strong:#D9D8D1;
+  --wash:#F3F2EC;
+  --muted:#6b6b6b;
+  --body:#333333;
+  --font:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --shadow-lift:0 10px 30px rgba(10,10,10,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:var(--font);
+  background:var(--paper);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:48px 24px 40px;
+}
+button{font-family:inherit;cursor:pointer;}
+
+/* label at top, eyebrow style */
+.demo-label{
+  font-family:var(--mono);font-size:12px;font-weight:500;
+  text-transform:uppercase;letter-spacing:1.2px;color:var(--ink);
+  text-align:center;
+}
+.demo-label::before{
+  content:'';display:inline-block;width:7px;height:7px;
+  background:var(--yellow);vertical-align:baseline;margin-right:9px;
+}
+
+/* captions */
+.caption{
+  max-width:440px;text-align:center;
+  font-size:17px;font-weight:500;color:#222;line-height:1.6;
+  letter-spacing:-.2px;
+}
+.caption.setup{margin-top:20px;}
+.caption.closing{margin-top:26px;font-size:15.5px;color:var(--muted);font-weight:500;}
+
+/* phone frame */
+.phone{
+  margin-top:28px;
+  width:380px;max-width:100%;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  box-shadow:var(--shadow-lift);
+  overflow:hidden;
+}
+.phone-head{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 18px;
+  border-bottom:1px solid var(--line);
+  background:var(--card);
+}
+.avatar{width:32px;height:32px;background:var(--ink);flex-shrink:0;}
+.phone-name{font-size:15px;font-weight:600;letter-spacing:-.2px;}
+
+/* chat area */
+.chat{
+  padding:20px 18px 22px;
+  display:flex;flex-direction:column;gap:6px;
+  min-height:560px;
+}
+.row{display:flex;flex-direction:column;margin-top:8px;}
+.row.shop{align-items:flex-start;}
+.row.cust{align-items:flex-end;}
+.meta{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.8px;color:#9a9a9a;
+  margin-bottom:4px;padding:0 4px;
+}
+.msg{
+  max-width:82%;
+  padding:10px 14px;
+  font-size:14.5px;line-height:1.5;
+  border-radius:10px;
+}
+.row.shop .msg{
+  background:var(--wash);
+  border:1px solid var(--line);
+  color:var(--ink);
+  border-top-left-radius:3px;
+}
+.row.cust .msg{
+  background:var(--ink);
+  color:#FAFAF8;
+  border-top-right-radius:3px;
+}
+
+/* day markers */
+.daymark{
+  align-self:center;
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
+  text-transform:uppercase;letter-spacing:1.2px;color:#9a9a9a;
+  padding:8px 0 2px;
+}
+.daymark::before,.daymark::after{
+  content:'';display:block;width:28px;height:1px;background:var(--line-strong);
+}
+
+/* status chip, yellow to green */
+.chipline{align-self:center;margin-top:18px;}
+.status-chip{
+  display:inline-block;
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;
+  padding:8px 13px;border-radius:0;
+  background:var(--yellow);color:#000;
+  max-width:300px;text-align:center;line-height:1.55;
+  transition:background .7s ease-out,color .7s ease-out;
+}
+.status-chip .tick{display:inline-block;opacity:0;transition:opacity .5s ease-out;margin-right:6px;}
+.status-chip.ok{background:var(--green);color:#fff;}
+.status-chip.ok .tick{opacity:1;}
+
+/* replay */
+.replay-wrap{margin-top:26px;height:38px;display:flex;align-items:center;justify-content:center;}
+.replay{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:9px 18px;border-radius:0;
+  background:transparent;color:var(--ink);
+  border:2px solid var(--ink);
+  opacity:0;visibility:hidden;transform:translateY(6px);
+  transition:opacity .4s ease-out,transform .4s ease-out,background .18s ease-out,color .18s ease-out;
+}
+.replay.show{opacity:1;visibility:visible;transform:none;}
+.replay:hover{background:var(--ink);color:#fff;}
+
+/* wordmark */
+.brand{
+  margin-top:22px;
+  font-size:15px;font-weight:500;letter-spacing:-.012em;color:var(--ink);
+}
+.ld{position:relative;display:inline-block;font-style:normal;}
+.ld::after{
+  content:'';position:absolute;left:50%;transform:translateX(-50%);
+  top:.07em;width:.13em;height:.13em;background:var(--yellow);
+}
+
+/* reveal steps */
+.step{opacity:0;transform:translateY(9px);transition:opacity .45s ease-out,transform .45s ease-out;}
+.step.show{opacity:1;transform:none;}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;}
+}
+
+@media (max-width:460px){
+  .chat{min-height:0;}
+}
+</style>
+</head>
+<body>
+
+<p class="demo-label">Example of the Quote and Follow Up System</p>
+
+<p class="caption setup">You sent a quote three days ago. Silence. Here is what the Follow Up System does so the job does not slip away.</p>
+
+<div class="phone" role="img" aria-label="Example text message exchange">
+  <div class="phone-head">
+    <span class="avatar" aria-hidden="true"></span>
+    <span class="phone-name">Bayside Air</span>
+  </div>
+  <div class="chat" id="chat">
+
+    <div class="daymark step" data-step="1">Monday</div>
+
+    <div class="row shop step" data-step="2">
+      <div class="msg">Here is the quote for the work we talked about. Happy to answer any questions.</div>
+    </div>
+
+    <div class="daymark step" data-step="3">Wednesday</div>
+
+    <div class="row shop step" data-step="4">
+      <span class="meta">Automatic</span>
+      <div class="msg">Just making sure you got the quote. Any questions I can knock out for you?</div>
+    </div>
+
+    <div class="daymark step" data-step="5">Friday</div>
+
+    <div class="row shop step" data-step="6">
+      <span class="meta">Automatic</span>
+      <div class="msg">Still glad to hold your spot this week if you want it. No pressure either way.</div>
+    </div>
+
+    <div class="row cust step" data-step="7">
+      <span class="meta">Reply</span>
+      <div class="msg">Sorry, been slammed. Yes, let us do it. When can you start?</div>
+    </div>
+
+    <div class="row shop step" data-step="8">
+      <span class="meta">Automatic</span>
+      <div class="msg">Great. I have Thursday open. Sending your confirmation now.</div>
+    </div>
+
+    <div class="chipline step" data-step="9">
+      <span class="status-chip" id="statusChip"><span class="tick">✓</span>A quote that went quiet turned into a closed job.</span>
+    </div>
+
+  </div>
+</div>
+
+<p class="caption closing">You did not have to remember to chase it. The system did.</p>
+
+<div class="replay-wrap">
+  <button class="replay" id="replayBtn" onclick="replay()">Replay</button>
+</div>
+
+<p class="brand" aria-label="BuildWithBooz"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></p>
+
+<script>
+(function(){
+  var timers=[];
+  var chip=document.getElementById('statusChip');
+  var replayBtn=document.getElementById('replayBtn');
+  var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function at(t,fn){timers.push(setTimeout(fn,t));}
+  function showStep(n){
+    var el=document.querySelector('[data-step="'+n+'"]');
+    if(el){el.classList.add('show');}
+  }
+  function clearTimers(){
+    for(var i=0;i<timers.length;i++){clearTimeout(timers[i]);}
+    timers=[];
+  }
+
+  function play(){
+    clearTimers();
+    at(500,function(){showStep(1);});
+    at(1600,function(){showStep(2);});
+    at(3200,function(){showStep(3);});
+    at(4300,function(){showStep(4);});
+    at(6000,function(){showStep(5);});
+    at(7100,function(){showStep(6);});
+    at(9000,function(){showStep(7);});
+    at(10700,function(){showStep(8);});
+    at(12400,function(){showStep(9);});
+    at(13500,function(){chip.classList.add('ok');});
+    at(14500,function(){replayBtn.classList.add('show');});
+  }
+
+  function reset(){
+    clearTimers();
+    var steps=document.querySelectorAll('.step');
+    for(var i=0;i<steps.length;i++){steps[i].classList.remove('show');}
+    chip.classList.remove('ok');
+    replayBtn.classList.remove('show');
+  }
+
+  function finish(){
+    clearTimers();
+    for(var i=1;i<=9;i++){showStep(i);}
+    chip.classList.add('ok');
+    replayBtn.classList.add('show');
+  }
+
+  window.replay=function(){
+    reset();
+    if(reducedMotion){finish();}else{setTimeout(play,450);}
+  };
+
+  window.addEventListener('load',function(){
+    if(reducedMotion){finish();}else{setTimeout(play,300);}
+  });
+})();
+</script>
+
+</body>
+</html>

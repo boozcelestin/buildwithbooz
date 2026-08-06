@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  BUILDWITHBOOZ · V8 DESIGN PROTOTYPE — DESIGN INTENT ONLY
+  ═══════════════════════════════════════════════════════════════════════════
+  This file is NOT production code and carries NO implementation authority.
+
+  It records visual direction, copy, and design-system tokens. Its single-file
+  structure, nine stacked screens, inline event handlers, and href="#" links are
+  prototype scaffolding — NOT architectural decisions.
+
+  DO NOT infer frontend architecture from this file.
+  DO NOT port it directly. Rebuild from it.
+
+  Known issues recorded against this prototype (see /website-review):
+    - yellow #F2C522 on #FAFAF8 measures 1.57:1 — fails WCAG at any text size
+    - several greys and sub-12px type fail contrast
+    - no <form> element; unverifiable proof metrics in the content
+
+  Authority: /CLAUDE.md → 07_Engineering/ENGINEERING_STANDARDS.md
+  Renamed from buildwithbooz_v8_production.html on 2026-07-30 — the previous
+  filename implied production authority it does not have.
+  ═══════════════════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildWithBooz · V8 Design Prototype — DESIGN INTENT ONLY, NOT FOR DEPLOYMENT</title>
+<meta name="description" content="I find what's costing you money and show you how to fix it. $1,000 Automation Assessment for trade businesses, delivered in 48 hours.">
+<meta property="og:title" content="BuildWithBooz">
+<meta property="og:description" content="I find what's costing you money and show you how to fix it. $1,000 Automation Assessment for trade businesses, delivered in 48 hours.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#FAFAF8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111111'/%3E%3Ctext x='7' y='24' font-family='Arial,sans-serif' font-size='20' font-weight='600' fill='%23FAFAF8'%3EB%3C/text%3E%3Crect x='21' y='7' width='5' height='5' fill='%23F2C522'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BUILDWITHBOOZ · DESIGN SYSTEM TOKENS · V8 PROTOTYPE (design intent only)
+   Built forward from V7 with the Brand Identity integrated.
+   Warm white surface. Ink #111. Yellow = action plus the two
+   squared i dots in the wordmark. Dark only in: hero dashboard
+   card, process band, closing CTA bars.
+   Type: Hanken Grotesk. Labels, data, meta: IBM Plex Mono.
+   ============================================================ */
+
+/* ---------- 1. TOKENS ---------- */
+:root{
+  /* color */
+  --ink:#111111;
+  --paper:#FAFAF8;
+  --card:#FFFFFF;
+  --dark:#111111;
+  --panel:#1a1a1a;
+  --panel-line:#2a2a2a;
+  --yellow:#F2C522;
+  --yellow-soft:rgba(242,197,34,.22);
+  --red:#E53935;
+  --green:#22C55E;
+  --line:#EAE9E3;
+  --line-strong:#D9D8D1;
+  --wash:#F3F2EC;
+  --shot:#F1F0EA;
+  --muted:#6b6b6b;
+  --faint:#9a9a9a;
+  --body:#333333;
+
+  /* type */
+  --font:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --fs-hero:clamp(34px,5.2vw,58px);
+  --fs-h1:clamp(28px,4vw,44px);
+  --fs-h2:clamp(22px,3vw,30px);
+  --fs-h3:17px;
+  --fs-body:16px;
+  --fs-small:14px;
+  --fs-label:12px;
+  --fs-micro:11px;
+
+  /* space */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px; --s8:64px; --s9:88px;
+
+  /* shape */
+  --r-sm:6px; --r-md:8px; --r-lg:8px;
+  --container:1080px;
+  --container-narrow:720px;
+  --shadow-card:0 1px 2px rgba(10,10,10,.04);
+  --shadow-lift:0 10px 30px rgba(10,10,10,.08);
+}
+
+/* ---------- 2. RESET / BASE ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font);
+  background:var(--paper);
+  color:var(--ink);
+  font-size:var(--fs-body);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img,svg{display:block;max-width:100%;}
+button{font-family:inherit;cursor:pointer;}
+a{color:inherit;}
+.container{max-width:var(--container);margin:0 auto;padding:0 24px;}
+.container-narrow{max-width:var(--container-narrow);margin:0 auto;padding:0 24px;}
+
+/* accessibility */
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:10px 16px;z-index:200;font-size:var(--fs-small);font-weight:600;}
+.skip-link:focus{left:12px;top:12px;}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:2px;}
+.dark-zone :focus-visible{outline-color:var(--yellow);}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
+}
+
+/* ---------- 3. PREVIEW SCAFFOLDING (STRIP BEFORE REPLIT BUILD) ---------- */
+.preview-bar{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  padding:8px 16px;background:#f0f0f0;border-bottom:1px solid var(--line-strong);
+}
+.preview-bar .pv-label{font-size:10px;font-weight:600;letter-spacing:1px;color:#999;text-transform:uppercase;margin-right:8px;}
+.pv-tab{padding:6px 12px;font-size:12px;font-weight:600;border:1px solid #ccc;background:#fff;border-radius:4px;color:#555;}
+.pv-tab[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink);}
+.screen{display:none;}
+.screen.on{display:block;}
+
+/* ---------- 4. NAVIGATION ---------- */
+.site-nav{
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+}
+.site-nav .nav-inner{
+  max-width:var(--container);margin:0 auto;
+  display:flex;align-items:center;gap:28px;
+  padding:18px 24px;
+}
+.logo{
+  font-size:18px;font-weight:500;letter-spacing:-.012em;
+  color:var(--ink);text-decoration:none;white-space:nowrap;
+  font-family:var(--font);
+}
+/* squared i dot: dotless i (U+0131) plus a plotted yellow square */
+.ld{position:relative;display:inline-block;font-style:normal;}
+.ld::after{
+  content:'';position:absolute;left:50%;transform:translateX(-50%);
+  top:.07em;width:.13em;height:.13em;background:var(--yellow);
+}
+.footer-inner .logo{font-size:15px;}
+.nav-links{display:flex;gap:26px;margin-left:auto;align-items:center;}
+.nav-links a{font-size:var(--fs-small);color:#444;text-decoration:none;font-weight:500;padding:4px 0;border-bottom:2px solid transparent;}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a[aria-current="page"]{color:var(--ink);font-weight:600;border-bottom-color:var(--yellow);}
+.nav-cta{margin-left:8px;}
+.nav-toggle{
+  display:none;margin-left:auto;background:none;border:1.5px solid var(--line-strong);
+  border-radius:var(--r-sm);padding:8px 10px;line-height:0;
+}
+.nav-toggle svg{width:20px;height:20px;stroke:var(--ink);stroke-width:2;fill:none;}
+.mobile-menu{display:none;border-bottom:1px solid var(--line);background:var(--paper);}
+.mobile-menu.open{display:block;}
+.mobile-menu a{display:block;padding:14px 24px;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none;border-top:1px solid var(--line);}
+.mobile-menu .mm-cta{padding:16px 24px;border-top:1px solid var(--line);}
+
+/* ---------- 5. BUTTONS (one system) ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-weight:600;letter-spacing:.6px;text-transform:uppercase;
+  border:none;border-radius:0;text-decoration:none;white-space:nowrap;
+  transition:transform .18s ease-out,background .18s ease-out;
+}
+.btn-primary{background:var(--yellow);color:#000;}
+.btn-primary:hover{transform:translateY(-1px);background:#E9BC1B;}
+.btn-primary:active{transform:translateY(0);}
+.btn-outline{background:transparent;color:var(--ink);border:2px solid var(--ink);}
+.btn-outline:hover{background:var(--ink);color:#fff;}
+.btn-sm{padding:10px 18px;font-size:12px;}
+.btn-md{padding:14px 24px;font-size:13px;}
+.btn-lg{padding:17px 30px;font-size:14px;letter-spacing:.9px;}
+.btn-block{width:100%;}
+
+/* ---------- 6. SECTION PRIMITIVES ---------- */
+.section{padding:var(--s9) 0;}
+.section-tight{padding:var(--s7) 0;}
+.eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:500;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink);}
+.eyebrow::before{content:'';display:inline-block;width:7px;height:7px;background:var(--yellow);vertical-align:baseline;margin-right:9px;}
+.sec-title{font-size:var(--fs-h2);font-weight:600;letter-spacing:-.5px;line-height:1.15;}
+.sec-sub{font-size:var(--fs-small);color:var(--muted);margin-top:10px;}
+.center{text-align:center;}
+.chip{
+  display:inline-block;background:var(--ink);color:#FAFAF8;
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
+  letter-spacing:.6px;text-transform:uppercase;
+  padding:5px 10px;border-radius:0;
+}
+.trust-row{display:flex;gap:20px;flex-wrap:wrap;}
+.trust-row span{font-family:var(--mono);font-size:11px;color:#888;letter-spacing:.2px;}
+.trust-row span::before{content:'✓ ';color:var(--ink);font-weight:600;}
+.dark-zone .trust-row span{color:#8d8d8d;}
+.dark-zone .trust-row span::before{color:var(--yellow);}
+
+/* ---------- 7. HERO ---------- */
+.hero{padding:var(--s8) 0 var(--s9);}
+.hero-grid{
+  max-width:var(--container);margin:0 auto;padding:0 24px;
+  display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;
+}
+.hero-hl{
+  font-size:var(--fs-hero);font-weight:600;line-height:1.02;
+  letter-spacing:-2px;text-transform:uppercase;
+}
+.hero-hl .y{color:var(--yellow);}
+.hero-hl .pause{display:block;height:14px;}
+.hero-sub{margin-top:20px;font-size:18px;color:var(--body);line-height:1.55;max-width:420px;}
+.hero-bullets{margin-top:22px;display:flex;flex-direction:column;gap:12px;list-style:none;}
+.hero-bullets li{font-size:15px;color:#444;display:flex;align-items:center;gap:12px;}
+.hero-bullets li::before{content:'';width:8px;height:8px;background:var(--yellow);flex-shrink:0;}
+.hero-cta{margin-top:30px;}
+.hero .trust-row{margin-top:18px;}
+
+/* ---------- 8. DASHBOARD CARD (dark zone 1 of 3) ---------- */
+.dash-wrap{position:relative;}
+.alert-badge{
+  font-family:var(--mono);
+  position:absolute;top:-18px;right:-14px;z-index:2;
+  background:var(--red);color:#fff;
+  padding:12px 16px;font-size:10.5px;font-weight:600;
+  line-height:1.6;letter-spacing:.4px;text-align:left;
+  border-radius:var(--r-sm);
+  box-shadow:0 10px 24px rgba(229,57,53,.35);
+}
+.dash-card{
+  background:var(--dark);border-radius:var(--r-lg);
+  padding:22px;color:#fff;
+  box-shadow:var(--shadow-lift);
+}
+.dash-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;}
+.dash-title{font-size:13px;font-weight:500;color:#c9c9c9;letter-spacing:.3px;}
+.dash-range{font-family:var(--mono);font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.8px;display:flex;align-items:center;gap:7px;}
+.live-dot{width:6px;height:6px;background:var(--green);animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+.dash-chart{margin-bottom:14px;}
+.dash-chart svg{width:100%;height:auto;}
+.dash-days{font-family:var(--mono);display:flex;justify-content:space-between;font-size:8.5px;color:#555;letter-spacing:.5px;text-transform:uppercase;margin-top:5px;padding:0 2px;}
+.dash-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;}
+.dm{background:var(--panel);padding:12px;border-radius:var(--r-sm);border:1px solid var(--panel-line);}
+.dm-lbl{font-family:var(--mono);font-size:9.5px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.7px;}
+.dm-val{font-family:var(--mono);font-size:20px;font-weight:600;color:#fff;margin:5px 0 3px;letter-spacing:-.3px;}
+.dm-sub{font-size:10px;color:var(--red);font-weight:600;}
+.dm-sub.ok{color:var(--green);}
+.dash-opps{background:var(--panel);padding:13px 14px;border-radius:var(--r-sm);border:1px solid var(--panel-line);}
+.doh{font-family:var(--mono);display:flex;justify-content:space-between;font-size:9px;color:#777;margin-bottom:9px;text-transform:uppercase;letter-spacing:1px;}
+.dop{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--panel-line);}
+.dop:last-child{border:none;padding-bottom:2px;}
+.dop-name{font-size:12px;color:#d4d4d4;display:flex;align-items:center;gap:8px;}
+.dop-name::before{content:'✓';color:var(--yellow);font-weight:600;font-size:11px;}
+.impact{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;}
+.impact.hi{color:var(--green);}
+.impact.mi{color:var(--yellow);}
+
+/* ---------- 9. PROOF CARDS (home) ---------- */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:var(--s6);}
+.pcard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  overflow:hidden;box-shadow:var(--shadow-card);
+  transition:border-color .2s ease-out,transform .2s ease-out,box-shadow .2s ease-out;
+}
+.pcard:hover{border-color:var(--line-strong);transform:translateY(-3px);box-shadow:var(--shadow-lift);}
+.pshot{height:120px;background:var(--shot);display:flex;align-items:center;justify-content:center;padding:16px;}
+.mini-ui{width:92%;height:100%;background:#fff;border-radius:5px;padding:12px;display:flex;flex-direction:column;gap:8px;justify-content:center;border:1px solid #e4e4e4;}
+.mbar{height:6px;border-radius:3px;background:#e6e6e6;}
+.mbar.y{background:var(--yellow);width:65%;}
+.mbar.b{background:#5b8def;width:80%;}
+.mbar.g{background:var(--green);width:50%;}
+.mbar.s{width:38%;}
+.mrow{display:flex;gap:6px;}
+.mcol{flex:1;border-radius:3px;height:26px;background:#f0f4ff;}
+.pinfo{padding:18px;}
+.pname{font-size:15px;font-weight:600;letter-spacing:-.2px;}
+.pdesc{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5;}
+.pinfo .chip{margin-top:12px;}
+
+/* ---------- 10. PROCESS BAND (dark zone 2 of 3) ---------- */
+.process-band{background:var(--dark);color:#fff;}
+.psteps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:var(--s6);}
+.pstep{background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--r-md);padding:22px;position:relative;}
+.pstep-arrow{position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--yellow);font-size:16px;z-index:2;font-weight:600;}
+.pnum{width:30px;height:30px;background:var(--yellow);color:#000;font-family:var(--mono);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.ptitle{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;}
+.pstep-desc{font-size:12.5px;color:#9a9a9a;margin-top:8px;line-height:1.6;}
+.pitalic{font-size:12.5px;color:var(--yellow);font-style:italic;margin-top:12px;line-height:1.45;}
+
+/* ---------- 11. SERVICES TEASER ---------- */
+.steaser{max-width:620px;margin:var(--s6) auto 0;}
+.stitem{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);}
+.stitem:last-child{border-bottom:none;}
+.stname{font-size:16px;font-weight:600;letter-spacing:.1px;}
+.stline{font-size:14px;color:var(--muted);text-align:right;}
+.steaser-cta{text-align:center;margin-top:var(--s6);}
+
+/* ---------- 12. CLOSING CTA BAR (dark zone 3 of 3) ---------- */
+.fcta{background:var(--dark);}
+.fcta-inner{
+  max-width:var(--container);margin:0 auto;padding:52px 24px;
+  display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;
+}
+.fcta h2{font-size:clamp(20px,2.6vw,27px);font-weight:600;color:#fff;text-transform:uppercase;letter-spacing:-.5px;}
+.fcta p{font-size:14px;color:#8d8d8d;margin-top:7px;}
+.fcta .trust-row{margin-top:14px;}
+
+/* ---------- 13. FOOTER (new, minimal · see change notes) ---------- */
+.site-footer{border-top:1px solid var(--line);background:var(--paper);}
+.footer-inner{
+  max-width:var(--container);margin:0 auto;padding:28px 24px;
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+}
+
+.footer-links{display:flex;gap:20px;margin-left:auto;}
+.footer-links a{font-size:12px;color:#888;text-decoration:none;}
+.footer-links a:hover{color:var(--ink);}
+.footer-note{font-family:var(--mono);width:100%;font-size:10.5px;color:#aaa;margin-top:4px;}
+
+/* ---------- 14. WORK PAGE ---------- */
+.page-head{padding:var(--s8) 0 var(--s4);}
+.page-h1{font-size:var(--fs-h1);font-weight:600;text-transform:uppercase;letter-spacing:-1.2px;line-height:1.05;}
+.page-h1 em{color:var(--yellow);font-style:normal;}
+.page-sub{font-size:16px;color:var(--muted);margin-top:12px;max-width:520px;line-height:1.65;}
+.ftabs{display:flex;gap:9px;flex-wrap:wrap;padding:var(--s5) 0 var(--s2);}
+.ftab{
+  padding:8px 18px;font-size:13px;font-weight:500;
+  border:1.5px solid var(--line-strong);background:var(--card);border-radius:0;color:#555;
+  transition:background .18s ease-out,color .18s ease-out,border-color .18s ease-out;
+}
+.ftab:hover{border-color:var(--ink);color:var(--ink);}
+.ftab[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink);}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:var(--s5) 0 var(--s8);}
+.wcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-card);transition:border-color .2s ease-out,transform .2s ease-out,box-shadow .2s ease-out;}
+.wcard:hover{border-color:var(--line-strong);transform:translateY(-3px);box-shadow:var(--shadow-lift);}
+.wcard.hide{display:none;}
+.wshot{height:110px;background:var(--shot);display:flex;align-items:center;justify-content:center;padding:14px;}
+.winfo{padding:16px 18px 18px;}
+.wname{font-size:15px;font-weight:600;letter-spacing:-.2px;}
+.wdesc{font-size:13px;color:var(--muted);margin-top:4px;}
+.winfo .chip{margin-top:11px;}
+.wlink{font-size:12.5px;color:#999;margin-top:11px;display:inline-block;text-decoration:none;font-weight:600;}
+.wlink:hover{color:var(--ink);}
+.cta-bar{background:var(--dark);}
+.cta-bar-inner{
+  max-width:var(--container);margin:0 auto;padding:36px 24px;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.cta-bar p{font-size:17px;font-weight:600;color:#fff;}
+.cta-bar span{font-size:13px;color:#8d8d8d;display:block;margin-top:5px;}
+
+/* ---------- 15. PROCESS PAGE ---------- */
+.psteps-full{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:var(--s7) 0 var(--s5);}
+.ps{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-md);padding:26px 22px;box-shadow:var(--shadow-card);}
+.ps-num{font-family:var(--mono);font-size:32px;font-weight:600;color:var(--yellow);line-height:1;letter-spacing:-1px;}
+.ps-title{font-size:13px;font-weight:600;text-transform:uppercase;margin-top:14px;letter-spacing:.7px;}
+.ps-time{font-family:var(--mono);font-size:11px;color:#a58614;font-weight:500;margin-top:4px;letter-spacing:.3px;}
+.ps-desc{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.65;}
+.ps-italic{font-size:13px;color:var(--body);font-style:italic;margin-top:14px;font-weight:600;line-height:1.5;}
+.pnext{
+  background:var(--wash);border-radius:var(--r-md);padding:28px;
+  display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+  margin-bottom:var(--s8);
+}
+.pnext-h{font-size:16px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
+.pnext p{font-size:14px;color:var(--muted);margin-top:6px;max-width:440px;}
+
+/* ---------- 16. ABOUT PAGE ---------- */
+.ahero{
+  display:grid;grid-template-columns:1fr 300px;gap:56px;align-items:start;
+  padding:var(--s8) 0 var(--s7);
+}
+.aheadline{font-size:var(--fs-h1);font-weight:600;line-height:1.08;letter-spacing:-1.2px;}
+.aheadline em{color:var(--yellow);font-style:normal;display:block;}
+.asub{font-size:16px;color:var(--body);margin-top:18px;line-height:1.7;max-width:460px;}
+.asub.secondary{margin-top:14px;font-size:15px;color:var(--muted);}
+.aphoto{
+  background:#e8e8e8;border-radius:var(--r-md);aspect-ratio:3/3.4;
+  display:flex;align-items:center;justify-content:center;color:#999;
+  font-size:12px;text-align:center;padding:16px;line-height:1.6;
+}
+.aphoto .avatar{width:72px;height:72px;background:#ccc;border-radius:50%;margin:0 auto 12px;}
+.ainline-stats{margin-top:20px;display:flex;flex-direction:column;gap:12px;}
+.ais{display:flex;align-items:center;gap:14px;}
+.ais-num{font-size:26px;font-weight:600;color:var(--yellow);min-width:44px;}
+.ais-lbl{font-family:var(--mono);font-size:10.5px;color:#888;text-transform:uppercase;letter-spacing:.5px;line-height:1.45;}
+.acta-note{
+  padding:var(--s6) 0 var(--s8);font-size:16px;color:#555;
+  max-width:520px;line-height:1.75;font-style:italic;
+  border-top:1px solid var(--line);
+}
+
+/* ---------- 17. SERVICES PAGE ---------- */
+.svlist{display:flex;flex-direction:column;gap:18px;padding:var(--s6) 0 var(--s5);}
+.svrow{
+  display:grid;grid-template-columns:64px 1fr 160px;gap:26px;align-items:start;
+  padding:28px;border:1px solid var(--line);border-radius:var(--r-md);
+  background:var(--card);box-shadow:var(--shadow-card);
+  transition:border-color .2s ease-out,box-shadow .2s ease-out;
+}
+.svrow:hover{border-color:var(--line-strong);box-shadow:var(--shadow-lift);}
+.svicon{width:64px;height:64px;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.svicon svg{width:26px;height:26px;stroke:var(--yellow);fill:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;}
+.sv-title{font-size:16px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;}
+.sv-desc{font-size:14.5px;color:var(--muted);margin-top:8px;line-height:1.55;}
+.sv-callout{margin-top:14px;}
+.sv-ref{font-size:13px;color:#999;margin-top:12px;}
+.sv-ref a{color:#999;text-decoration:none;font-weight:600;}
+.sv-ref a:hover{color:var(--ink);}
+.svpricing{text-align:right;padding-top:6px;}
+.svprice-lbl{font-family:var(--mono);font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:.8px;}
+.svprice{font-family:var(--mono);font-size:24px;font-weight:600;letter-spacing:-.5px;margin-top:4px;}
+.svupsell{
+  background:var(--wash);padding:28px;border-radius:var(--r-md);
+  display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+  margin-bottom:var(--s8);
+}
+.svupsell-h{font-size:16px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
+.svupsell p{font-size:14px;color:var(--muted);margin-top:6px;}
+.svupsell .price-note{font-size:12px;color:#aaa;margin-top:5px;}
+
+/* ---------- 18. START FORM ---------- */
+.startwrap{max-width:520px;margin:0 auto;padding:var(--s8) 24px var(--s9);}
+.starth{font-size:clamp(28px,4vw,38px);font-weight:600;letter-spacing:-1px;line-height:1.08;}
+.startsub{font-size:16px;color:#555;margin:14px 0 32px;line-height:1.6;}
+.field{margin-bottom:20px;display:flex;flex-direction:column;gap:8px;}
+.field label{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--body);text-transform:uppercase;letter-spacing:.5px;}
+.field input,.field select,.field textarea{
+  font-family:inherit;font-size:16px;padding:14px 15px;
+  border:1.5px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--card);color:var(--ink);width:100%;
+  transition:border-color .18s ease-out,box-shadow .18s ease-out;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--yellow);box-shadow:0 0 0 3px var(--yellow-soft);
+}
+.field input[aria-invalid="true"],.field select[aria-invalid="true"],.field textarea[aria-invalid="true"]{border-color:var(--red);}
+.field-error{display:none;font-size:13px;color:var(--red);font-weight:500;}
+.field.invalid .field-error{display:block;}
+.field textarea{resize:vertical;line-height:1.55;min-height:120px;}
+.starttrust{font-family:var(--mono);font-size:11px;color:#999;margin-top:16px;text-align:center;}
+.startdone{display:none;text-align:center;padding:56px 10px;}
+.startdone.on{display:block;}
+.donecheck{
+  width:64px;height:64px;background:var(--yellow);color:#000;
+  font-size:30px;font-weight:600;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+}
+.doneh{font-size:30px;font-weight:600;letter-spacing:-.6px;}
+.donep{font-size:16px;color:#555;line-height:1.7;max-width:400px;margin:14px auto 0;}
+
+/* ---------- 19. BLOG LIST ---------- */
+.blog-hero{padding:var(--s8) 0 var(--s3);max-width:var(--container-narrow);margin:0 auto;}
+.blog-h1{font-size:clamp(30px,4.4vw,44px);font-weight:600;letter-spacing:-1.4px;line-height:1.05;margin-top:16px;}
+.blog-sub{font-size:16px;color:#555;line-height:1.65;margin-top:14px;max-width:540px;}
+.blog-grid{max-width:var(--container-narrow);margin:0 auto;padding:var(--s6) 24px var(--s9);display:flex;flex-direction:column;gap:20px;}
+.bcard{
+  display:grid;grid-template-columns:210px 1fr;
+  border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;
+  cursor:pointer;background:var(--card);text-align:left;font-family:inherit;
+  box-shadow:var(--shadow-card);
+  transition:border-color .2s ease-out,transform .2s ease-out,box-shadow .2s ease-out;padding:0;
+}
+.bcard:hover{border-color:var(--yellow);transform:translateY(-2px);box-shadow:var(--shadow-lift);}
+.bthumb{background:var(--shot);display:flex;align-items:center;justify-content:center;padding:18px;min-height:160px;}
+.binfo{padding:22px 26px;display:flex;flex-direction:column;justify-content:center;}
+.btag{font-family:var(--mono);font-size:11px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:1px;}
+.btitle{font-size:19px;font-weight:600;line-height:1.28;margin-top:9px;letter-spacing:-.3px;}
+.binfo .chip{margin-top:12px;width:fit-content;}
+.bmeta{font-family:var(--mono);font-size:11px;color:#aaa;margin-top:13px;}
+
+/* ---------- 20. BLOG ARTICLE ---------- */
+.art-wrap{max-width:680px;margin:0 auto;padding:var(--s7) 24px 0;}
+.art-back{font-size:14px;color:#888;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;margin-bottom:28px;background:none;border:none;font-family:inherit;font-weight:600;padding:0;}
+.art-back:hover{color:var(--ink);}
+.art-h1{font-size:clamp(28px,4.6vw,42px);font-weight:600;letter-spacing:-1.4px;line-height:1.08;margin-top:16px;}
+.art-meta{font-family:var(--mono);font-size:12.5px;color:#999;margin-top:16px;}
+.art-callout{
+  margin:30px 0 10px;background:var(--wash);
+  border-left:4px solid var(--yellow);
+  padding:20px 22px;border-radius:0 var(--r-sm) var(--r-sm) 0;
+}
+.art-callout strong{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;display:block;margin-bottom:7px;}
+.art-callout span{font-size:15.5px;color:#444;line-height:1.65;}
+.art-heroimg,.art-figimg{
+  background:#ececec;border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;
+  color:#aaa;font-size:12px;text-align:center;padding:16px;line-height:1.6;
+}
+.art-heroimg{height:300px;margin:30px 0 10px;}
+.art-figimg{height:230px;}
+.art-body p{font-size:17px;line-height:1.8;color:#222;margin-top:22px;}
+.art-body h2{font-size:24px;font-weight:600;letter-spacing:-.5px;margin-top:44px;}
+.art-fig{margin:30px 0 8px;}
+.art-figcap{font-size:13px;color:#999;font-style:italic;margin-top:10px;text-align:center;}
+.art-quote{
+  margin:36px 0;padding:8px 0 8px 26px;border-left:4px solid var(--yellow);
+  font-size:23px;font-weight:600;line-height:1.42;letter-spacing:-.4px;
+}
+.art-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:32px 0 10px;}
+.art-stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:20px 14px;text-align:center;box-shadow:var(--shadow-card);}
+.art-stat-num{font-family:var(--mono);font-size:18px;font-weight:600;line-height:1.2;letter-spacing:-.4px;}
+.art-stat .chip{margin-top:0;font-size:13px;padding:6px 12px;}
+.art-stat-lbl{font-family:var(--mono);font-size:10.5px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-top:9px;line-height:1.45;}
+.art-cta{
+  background:var(--dark);border-radius:var(--r-md);
+  margin:52px 0 64px;padding:40px 30px;text-align:center;
+}
+.art-cta h3{font-size:24px;font-weight:600;color:#fff;letter-spacing:-.6px;}
+.art-cta p{font-size:15px;color:#999;margin-top:12px;line-height:1.65;max-width:440px;margin-left:auto;margin-right:auto;}
+.art-cta .btn{margin-top:24px;}
+
+/* ---------- 21. RESPONSIVE ---------- */
+@media (max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:48px;}
+  .hero-sub{max-width:560px;}
+  .dash-wrap{max-width:560px;}
+  .pgrid,.psteps,.psteps-full{grid-template-columns:repeat(2,1fr);}
+  .pstep-arrow{display:none;}
+  .wgrid{grid-template-columns:repeat(2,1fr);}
+  .ahero{grid-template-columns:1fr 260px;gap:40px;}
+}
+@media (max-width:700px){
+  :root{--s9:56px;--s8:44px;}
+  .nav-links,.nav-cta{display:none;}
+  .nav-toggle{display:block;}
+  .pgrid,.psteps,.psteps-full,.wgrid{grid-template-columns:1fr;}
+  .alert-badge{position:static;display:block;margin:0 0 14px;border-radius:var(--r-sm);box-shadow:none;}
+  .ahero{grid-template-columns:1fr;gap:32px;}
+  .aphoto{max-width:300px;}
+  .svrow{grid-template-columns:1fr;gap:16px;padding:22px;}
+  .svicon{width:52px;height:52px;}
+  .svicon svg{width:22px;height:22px;}
+  .svpricing{text-align:left;padding-top:0;border-top:1px solid var(--line);padding-top:14px;}
+  .stitem{flex-direction:column;align-items:flex-start;gap:5px;}
+  .stline{text-align:left;}
+  .bcard{grid-template-columns:1fr;}
+  .bthumb{min-height:130px;}
+  .art-stats{grid-template-columns:1fr;}
+  .fcta-inner,.cta-bar-inner,.pnext,.svupsell{flex-direction:column;align-items:flex-start;}
+  .fcta-inner .btn,.cta-bar-inner .btn,.pnext .btn,.svupsell .btn{width:100%;}
+  .hero-cta .btn{width:100%;}
+  .art-heroimg{height:220px;}
+  .art-figimg{height:180px;}
+  .footer-links{margin-left:0;}
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ══════════════════════════════════════════════════════════
+     PREVIEW SCAFFOLDING · STRIP THIS BAR AND THE .screen SWITCHER
+     LOGIC BEFORE THE REPLIT BUILD. EACH .screen BECOMES A ROUTE.
+     ══════════════════════════════════════════════════════════ -->
+<div class="preview-bar" role="tablist" aria-label="Screen preview switcher">
+  <span class="pv-label">Preview</span>
+  <button class="pv-tab" role="tab" aria-selected="true" data-screen="home">Home</button>
+  <button class="pv-tab" role="tab" aria-selected="false" data-screen="work">Work</button>
+  <button class="pv-tab" role="tab" aria-selected="false" data-screen="services">Services</button>
+  <button class="pv-tab" role="tab" aria-selected="false" data-screen="process">Process</button>
+  <button class="pv-tab" role="tab" aria-selected="false" data-screen="about">About</button>
+  <button class="pv-tab" role="tab" aria-selected="false" data-screen="blog">Blog</button>
+  <button class="pv-tab" role="tab" aria-selected="false" data-screen="article">Article</button>
+  <button class="pv-tab" role="tab" aria-selected="false" data-screen="start">Start</button>
+  <button class="pv-tab" role="tab" aria-selected="false" data-screen="confirm">Confirmation</button>
+</div>
+
+<main id="main">
+
+<!-- ════════════════════ HOME ════════════════════ -->
+<section id="home" class="screen on">
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#" onclick="go('work');return false;">Work</a>
+        <a href="#" onclick="go('services');return false;">Services</a>
+        <a href="#" onclick="go('process');return false;">Process</a>
+        <a href="#" onclick="go('about');return false;">About</a>
+        <a href="#" onclick="go('blog');return false;">Blog</a>
+      </nav>
+      <a href="#" class="btn btn-primary btn-sm nav-cta" onclick="go('start');return false;">Get Your Assessment</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu(this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="#" onclick="go('work');return false;">Work</a>
+      <a href="#" onclick="go('services');return false;">Services</a>
+      <a href="#" onclick="go('process');return false;">Process</a>
+      <a href="#" onclick="go('about');return false;">About</a>
+      <a href="#" onclick="go('blog');return false;">Blog</a>
+      <div class="mm-cta"><a href="#" class="btn btn-primary btn-md btn-block" onclick="go('start');return false;">Get Your Assessment</a></div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-hl">You're losing leads.<br>Time.<br>Money.<br><span class="pause"></span><span class="y">Every single day.</span></h1>
+        <p class="hero-sub">I find what's costing you money and show you how to fix it.</p>
+        <ul class="hero-bullets">
+          <li>Find the biggest leaks</li>
+          <li>See what to fix first</li>
+          <li>Know what each fix is worth</li>
+        </ul>
+        <div class="hero-cta">
+          <a href="#" class="btn btn-primary btn-lg" onclick="go('start');return false;">Get Your Assessment →</a>
+        </div>
+        <div class="trust-row">
+          <span>Delivered in 48 Hours</span><span>No Long Term Commitment</span><span>100% Confidential</span>
+        </div>
+      </div>
+
+      <div class="dash-wrap dark-zone" aria-label="Example dashboard showing a business losing leads">
+        <div class="alert-badge" role="img" aria-label="Alert: 23 leads missed in the last 7 days, estimated loss $8,450">⚠ 23 LEADS MISSED<br>IN THE LAST 7 DAYS<br>EST. LOSS: $8,450</div>
+        <div class="dash-card">
+          <div class="dash-head">
+            <span class="dash-title">Lead Overview</span>
+            <span class="dash-range"><span class="live-dot" aria-hidden="true"></span>Live · Last 7 Days</span>
+          </div>
+          <div class="dash-chart" aria-hidden="true">
+            <svg viewBox="0 0 220 52">
+              <line x1="0" y1="13" x2="220" y2="13" stroke="#222" stroke-width="1"/>
+              <line x1="0" y1="26" x2="220" y2="26" stroke="#222" stroke-width="1"/>
+              <line x1="0" y1="39" x2="220" y2="39" stroke="#222" stroke-width="1"/>
+              <polyline points="0,44 22,38 44,41 66,28 88,30 110,21 132,24 154,15 176,30 198,12 220,8" fill="none" stroke="#F2C522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="176" cy="30" r="4.5" fill="none" stroke="#E53935" stroke-width="2"/>
+            </svg>
+            <div class="dash-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+          </div>
+          <div class="dash-metrics">
+            <div class="dm"><div class="dm-lbl">Response Time</div><div class="dm-val">2h 47m</div><div class="dm-sub">Leads going cold.</div></div>
+            <div class="dm"><div class="dm-lbl">Follow Up Rate</div><div class="dm-val">18%</div><div class="dm-sub">Revenue leaking daily.</div></div>
+            <div class="dm"><div class="dm-lbl">Conversion Rate</div><div class="dm-val">7.2%</div><div class="dm-sub ok">Room to 2x+</div></div>
+          </div>
+          <div class="dash-opps">
+            <div class="doh"><span>Top Opportunities</span><span>Est. Impact</span></div>
+            <div class="dop"><span class="dop-name">Instant lead response system</span><span class="impact hi">High</span></div>
+            <div class="dop"><span class="dop-name">Automated follow up sequences</span><span class="impact hi">High</span></div>
+            <div class="dop"><span class="dop-name">Quote &amp; estimate automation</span><span class="impact mi">Medium</span></div>
+            <div class="dop"><span class="dop-name">Invoice &amp; payment follow up</span><span class="impact mi">Medium</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="border-top:1px solid var(--line);">
+    <div class="container">
+      <h2 class="sec-title center">These systems are already working.</h2>
+      <p class="sec-sub center">Live systems. Real businesses. Real money.</p>
+      <div class="pgrid">
+        <div class="pcard">
+          <div class="pshot" aria-hidden="true"><div class="mini-ui"><div class="mbar y"></div><div class="mbar b"></div><div class="mrow"><div class="mcol"></div><div class="mcol" style="background:#fff3cd;"></div></div><div class="mbar s"></div></div></div>
+          <div class="pinfo"><h3 class="pname">Lead Response System</h3><p class="pdesc">Responds in seconds. Books more calls.</p><span class="chip">+35% More Conversions</span></div>
+        </div>
+        <div class="pcard">
+          <div class="pshot" aria-hidden="true"><div class="mini-ui"><div class="mbar b"></div><div class="mrow"><div class="mcol" style="background:#e3f2fd;"></div><div class="mcol"></div></div><div class="mbar y"></div><div class="mbar s"></div></div></div>
+          <div class="pinfo"><h3 class="pname">Quote and Follow Up System</h3><p class="pdesc">Automates follow ups. Closes more jobs.</p><span class="chip">+28% Close Rate</span></div>
+        </div>
+        <div class="pcard">
+          <div class="pshot" aria-hidden="true"><div class="mini-ui"><div class="mbar g"></div><div class="mrow"><div class="mcol" style="background:#e8f5e9;"></div><div class="mcol"></div></div><div class="mbar y"></div></div></div>
+          <div class="pinfo"><h3 class="pname">Invoice and Payment System</h3><p class="pdesc">Gets paid faster. No more chasing.</p><span class="chip">-42% Overdue Invoices</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section process-band dark-zone">
+    <div class="container">
+      <h2 class="sec-title center" style="color:#fff;">Four steps to finding what's actually broken.</h2>
+      <div class="psteps">
+        <div class="pstep"><div class="pnum" aria-hidden="true">1</div><h3 class="ptitle">Discovery Call</h3><p class="pstep-desc">45 minutes to learn exactly how your business runs.</p><p class="pitalic">You talk.<br>I listen.</p><span class="pstep-arrow" aria-hidden="true">→</span></div>
+        <div class="pstep"><div class="pnum" aria-hidden="true">2</div><h3 class="ptitle">AI Analysis</h3><p class="pstep-desc">I go through your operation to find where money disappears.</p><p class="pitalic">I dig deep.<br>Find the truth.</p><span class="pstep-arrow" aria-hidden="true">→</span></div>
+        <div class="pstep"><div class="pnum" aria-hidden="true">3</div><h3 class="ptitle">Custom Report</h3><p class="pstep-desc">You get 3 to 7 fixes ranked by what makes the most money.</p><p class="pitalic">Clear plan.<br>Big impact.</p><span class="pstep-arrow" aria-hidden="true">→</span></div>
+        <div class="pstep"><div class="pnum" aria-hidden="true">4</div><h3 class="ptitle">Review Call</h3><p class="pstep-desc">We go through everything. You decide what gets built first.</p><p class="pitalic">You decide.<br>We execute.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <h2 class="sec-title center">What we fix.</h2>
+      <p class="sec-sub center">Three systems. Each tied to one outcome.</p>
+      <div class="steaser">
+        <div class="stitem"><span class="stname">Lead Response System</span><span class="stline">Answer every lead in seconds.</span></div>
+        <div class="stitem"><span class="stname">Quote and Follow Up System</span><span class="stline">Send quotes and chase them automatically.</span></div>
+        <div class="stitem"><span class="stname">Invoice and Payment System</span><span class="stline">Get paid without chasing anyone.</span></div>
+      </div>
+      <div class="steaser-cta">
+        <a href="#" class="btn btn-outline btn-md" onclick="go('services');return false;">See All Services →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="fcta dark-zone">
+    <div class="fcta-inner">
+      <div>
+        <h2>Clarity First. Growth Next.</h2>
+        <p>Fix what costs you. Build what pays you.</p>
+        <div class="trust-row"><span>Delivered in 48 Hours</span><span>No Long Term Commitment</span><span>100% Confidential</span></div>
+      </div>
+      <a href="#" class="btn btn-primary btn-lg" onclick="go('start');return false;">Get Your Assessment →</a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <div class="footer-links">
+        <a href="#" onclick="go('work');return false;">Work</a>
+        <a href="#" onclick="go('services');return false;">Services</a>
+        <a href="#" onclick="go('process');return false;">Process</a>
+        <a href="#" onclick="go('about');return false;">About</a>
+        <a href="#" onclick="go('blog');return false;">Blog</a>
+      </div>
+      <p class="footer-note">© 2026 BuildWithBooz. Miami, FL.</p>
+    </div>
+  </footer>
+</section>
+
+<!-- ════════════════════ WORK ════════════════════ -->
+<section id="work" class="screen">
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#" aria-current="page">Work</a>
+        <a href="#" onclick="go('services');return false;">Services</a>
+        <a href="#" onclick="go('process');return false;">Process</a>
+        <a href="#" onclick="go('about');return false;">About</a>
+        <a href="#" onclick="go('blog');return false;">Blog</a>
+      </nav>
+      <a href="#" class="btn btn-primary btn-sm nav-cta" onclick="go('start');return false;">Get Your Assessment</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu(this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="#" onclick="go('work');return false;">Work</a>
+      <a href="#" onclick="go('services');return false;">Services</a>
+      <a href="#" onclick="go('process');return false;">Process</a>
+      <a href="#" onclick="go('about');return false;">About</a>
+      <a href="#" onclick="go('blog');return false;">Blog</a>
+      <div class="mm-cta"><a href="#" class="btn btn-primary btn-md btn-block" onclick="go('start');return false;">Get Your Assessment</a></div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-head">
+      <h1 class="page-h1">The Work.</h1>
+      <p class="page-sub">Small operation. Real work. No inflated numbers.</p>
+    </div>
+    <div class="ftabs" role="group" aria-label="Filter systems by category">
+      <button class="ftab" aria-pressed="true" data-filter="all">All Systems</button>
+      <button class="ftab" aria-pressed="false" data-filter="lead">Lead Generation</button>
+      <button class="ftab" aria-pressed="false" data-filter="follow">Follow Up</button>
+      <button class="ftab" aria-pressed="false" data-filter="pay">Payments</button>
+      <button class="ftab" aria-pressed="false" data-filter="dash">Dashboards</button>
+    </div>
+    <div class="wgrid">
+      <div class="wcard" data-cat="lead">
+        <div class="wshot" aria-hidden="true"><div class="mini-ui"><div class="mbar y" style="width:70%;"></div><div class="mbar b" style="width:55%;"></div><div class="mbar g" style="width:40%;"></div><div class="mbar" style="width:30%;"></div></div></div>
+        <div class="winfo"><h2 class="wname">Lead Response System</h2><p class="wdesc">Responds in under 5 seconds</p><span class="chip">+35% Conversions</span><br><a class="wlink" href="#" onclick="go('article');return false;">View Case Study →</a></div>
+      </div>
+      <div class="wcard" data-cat="follow">
+        <div class="wshot" aria-hidden="true"><div class="mini-ui"><div class="mbar b" style="width:80%;"></div><div class="mbar y" style="width:65%;"></div><div class="mbar" style="width:60%;background:#e3f2fd;"></div><div class="mbar g" style="width:40%;"></div></div></div>
+        <div class="winfo"><h2 class="wname">Quote and Follow Up System</h2><p class="wdesc">Automates every follow up stage</p><span class="chip">+28% Close Rate</span><br><a class="wlink" href="#" onclick="go('article');return false;">View Case Study →</a></div>
+      </div>
+      <div class="wcard" data-cat="pay">
+        <div class="wshot" aria-hidden="true"><div class="mini-ui"><div class="mbar g" style="width:50%;"></div><div class="mbar y" style="width:65%;"></div><div class="mbar" style="width:45%;background:#e8f5e9;"></div></div></div>
+        <div class="winfo"><h2 class="wname">Invoice and Payment System</h2><p class="wdesc">Automated reminders, faster pay</p><span class="chip">-42% Overdue Invoices</span><br><a class="wlink" href="#" onclick="go('article');return false;">View Case Study →</a></div>
+      </div>
+      <div class="wcard" data-cat="dash">
+        <div class="wshot" aria-hidden="true"><div class="mini-ui"><div class="mrow" style="flex:1;"><div class="mcol" style="background:#f3e5f5;height:auto;"></div><div class="mcol" style="background:#e8f5e9;height:auto;"></div><div class="mcol" style="background:#fff3cd;height:auto;"></div></div><div class="mbar b" style="width:80%;"></div></div></div>
+        <div class="winfo"><h2 class="wname">Job Pipeline Dashboard</h2><p class="wdesc">Full visibility across 50+ active jobs</p><span class="chip">60% Faster Decisions</span><br><a class="wlink" href="#" onclick="go('article');return false;">View Case Study →</a></div>
+      </div>
+      <div class="wcard" data-cat="follow">
+        <div class="wshot" aria-hidden="true"><div class="mini-ui"><div class="mbar y" style="width:70%;"></div><div class="mbar b" style="width:55%;"></div><div class="mbar" style="width:55%;background:#fce4ec;"></div><div class="mbar g" style="width:40%;"></div></div></div>
+        <div class="winfo"><h2 class="wname">Email Intelligence Agent</h2><p class="wdesc">Categorizes and prioritizes automatically</p><span class="chip">10+ Hours Saved / Week</span><br><a class="wlink" href="#" onclick="go('article');return false;">View Case Study →</a></div>
+      </div>
+      <div class="wcard" data-cat="follow">
+        <div class="wshot" aria-hidden="true"><div class="mini-ui"><div class="mbar b" style="width:80%;"></div><div class="mbar y" style="width:65%;"></div><div class="mbar g" style="width:40%;"></div></div></div>
+        <div class="winfo"><h2 class="wname">Text Condenser Agent</h2><p class="wdesc">Long messages into clear actions</p><span class="chip">Minutes, Not Hours</span><br><a class="wlink" href="#" onclick="go('article');return false;">View Case Study →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bar dark-zone">
+    <div class="cta-bar-inner">
+      <div><p>Want results like these?</p><span>Let's find what's missing in your business.</span></div>
+      <a href="#" class="btn btn-primary btn-md" onclick="go('start');return false;">Get Your Assessment →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ SERVICES ════════════════════ -->
+<section id="services" class="screen">
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#" onclick="go('work');return false;">Work</a>
+        <a href="#" aria-current="page">Services</a>
+        <a href="#" onclick="go('process');return false;">Process</a>
+        <a href="#" onclick="go('about');return false;">About</a>
+        <a href="#" onclick="go('blog');return false;">Blog</a>
+      </nav>
+      <a href="#" class="btn btn-primary btn-sm nav-cta" onclick="go('start');return false;">Get Your Assessment</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu(this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="#" onclick="go('work');return false;">Work</a>
+      <a href="#" onclick="go('services');return false;">Services</a>
+      <a href="#" onclick="go('process');return false;">Process</a>
+      <a href="#" onclick="go('about');return false;">About</a>
+      <a href="#" onclick="go('blog');return false;">Blog</a>
+      <div class="mm-cta"><a href="#" class="btn btn-primary btn-md btn-block" onclick="go('start');return false;">Get Your Assessment</a></div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-head">
+      <h1 class="page-h1">What we fix.</h1>
+      <p class="page-sub">Three systems. Each one tied to a specific outcome. No tool names. No jargon. Just results.</p>
+    </div>
+    <div class="svlist">
+      <div class="svrow">
+        <div class="svicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+        <div>
+          <h2 class="sv-title">Lead Response System</h2>
+          <p class="sv-desc">Capture and respond to every lead instantly.</p>
+          <span class="chip sv-callout">Never miss another lead.</span>
+          <p class="sv-ref">+35% more conversions. <a href="#" onclick="go('article');return false;">View Case Study →</a></p>
+        </div>
+        <div class="svpricing"><div class="svprice-lbl">Investment</div><div class="svprice">From $1K</div></div>
+      </div>
+      <div class="svrow">
+        <div class="svicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5c0-2-2.2-3-5-3s-5 1-5 3 2 2.8 5 3.5 5 1.5 5 3.5-2.2 3-5 3-5-1-5-3"/></svg></div>
+        <div>
+          <h2 class="sv-title">Quote and Follow Up System</h2>
+          <p class="sv-desc">Send quotes and follow up automatically until the job is closed.</p>
+          <span class="chip sv-callout">More conversions. Less work.</span>
+          <p class="sv-ref">+28% close rate. <a href="#" onclick="go('article');return false;">View Case Study →</a></p>
+        </div>
+        <div class="svpricing"><div class="svprice-lbl">Investment</div><div class="svprice">From $1K</div></div>
+      </div>
+      <div class="svrow">
+        <div class="svicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <div>
+          <h2 class="sv-title">Invoice and Payment System</h2>
+          <p class="sv-desc">Automate invoicing and get paid without chasing.</p>
+          <span class="chip sv-callout">Get paid. Faster.</span>
+          <p class="sv-ref">-42% overdue invoices. <a href="#" onclick="go('article');return false;">View Case Study →</a></p>
+        </div>
+        <div class="svpricing"><div class="svprice-lbl">Investment</div><div class="svprice">From $1K</div></div>
+      </div>
+    </div>
+    <div class="svupsell">
+      <div>
+        <p class="svupsell-h">Some businesses need a deeper breakdown.</p>
+        <p>Full systems builds and custom dashboards. Built around your entire operation.</p>
+        <p class="price-note">Investment: $5K to $10K+</p>
+      </div>
+      <a href="#" class="btn btn-outline btn-md" onclick="go('start');return false;">Full Systems Builds →</a>
+    </div>
+  </div>
+
+  <div class="fcta dark-zone">
+    <div class="fcta-inner">
+      <div>
+        <h2>Not Sure What You Need?</h2>
+        <p>Let's find the biggest leaks in your business first.</p>
+      </div>
+      <a href="#" class="btn btn-primary btn-md" onclick="go('start');return false;">Get Your Assessment →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ PROCESS ════════════════════ -->
+<section id="process" class="screen">
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#" onclick="go('work');return false;">Work</a>
+        <a href="#" onclick="go('services');return false;">Services</a>
+        <a href="#" aria-current="page">Process</a>
+        <a href="#" onclick="go('about');return false;">About</a>
+        <a href="#" onclick="go('blog');return false;">Blog</a>
+      </nav>
+      <a href="#" class="btn btn-primary btn-sm nav-cta" onclick="go('start');return false;">Get Your Assessment</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu(this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="#" onclick="go('work');return false;">Work</a>
+      <a href="#" onclick="go('services');return false;">Services</a>
+      <a href="#" onclick="go('process');return false;">Process</a>
+      <a href="#" onclick="go('about');return false;">About</a>
+      <a href="#" onclick="go('blog');return false;">Blog</a>
+      <div class="mm-cta"><a href="#" class="btn btn-primary btn-md btn-block" onclick="go('start');return false;">Get Your Assessment</a></div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-head" style="border-bottom:1px solid var(--line);padding-bottom:var(--s6);">
+      <h1 class="page-h1">Four steps to finding<br><em>what's actually broken.</em></h1>
+      <p class="page-sub">Most businesses don't have a growth problem. They have a leak problem. Money walks out every day through bad processes. The assessment finds exactly where it's going. Then we show you how to get it back.</p>
+    </div>
+    <div class="psteps-full">
+      <div class="ps"><div class="ps-num" aria-hidden="true">01</div><h2 class="ps-title">Discovery Call</h2><div class="ps-time">45 minutes</div><p class="ps-desc">We learn exactly how your business runs. No pitch. No agenda. You talk about what's working and what isn't. I listen for where the money goes.</p><p class="ps-italic">"You talk.<br>I listen."</p></div>
+      <div class="ps"><div class="ps-num" aria-hidden="true">02</div><h2 class="ps-title">AI Analysis</h2><div class="ps-time">24 hours</div><p class="ps-desc">I go through your entire operation piece by piece. Every place time disappears. Every place money leaks. Every place leads go cold. I find them all.</p><p class="ps-italic">"I dig deep.<br>Find the truth."</p></div>
+      <div class="ps"><div class="ps-num" aria-hidden="true">03</div><h2 class="ps-title">Custom Report</h2><div class="ps-time">Delivered in 48 hours</div><p class="ps-desc">You get a clear list of 3 to 7 fixes ranked by what moves the most money. Specific. Priced. No filler. You'll know exactly what to do before we ever speak again.</p><p class="ps-italic">"Clear plan.<br>Big impact."</p></div>
+      <div class="ps"><div class="ps-num" aria-hidden="true">04</div><h2 class="ps-title">Review Call</h2><div class="ps-time">30 minutes</div><p class="ps-desc">We go through every finding together. You decide what gets built first. I tell you what each fix is worth and what it costs. Nothing happens without your say.</p><p class="ps-italic">"You decide.<br>We execute."</p></div>
+    </div>
+    <div class="pnext">
+      <div>
+        <p class="pnext-h">What Happens Next?</p>
+        <p>Most clients move forward and get the systems built. Results show up in the first 30 days.</p>
+      </div>
+      <a href="#" class="btn btn-primary btn-md" onclick="go('services');return false;">See Services →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ ABOUT ════════════════════ -->
+<section id="about" class="screen">
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#" onclick="go('work');return false;">Work</a>
+        <a href="#" onclick="go('services');return false;">Services</a>
+        <a href="#" onclick="go('process');return false;">Process</a>
+        <a href="#" aria-current="page">About</a>
+        <a href="#" onclick="go('blog');return false;">Blog</a>
+      </nav>
+      <a href="#" class="btn btn-primary btn-sm nav-cta" onclick="go('start');return false;">Get Your Assessment</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu(this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="#" onclick="go('work');return false;">Work</a>
+      <a href="#" onclick="go('services');return false;">Services</a>
+      <a href="#" onclick="go('process');return false;">Process</a>
+      <a href="#" onclick="go('about');return false;">About</a>
+      <a href="#" onclick="go('blog');return false;">Blog</a>
+      <div class="mm-cta"><a href="#" class="btn btn-primary btn-md btn-block" onclick="go('start');return false;">Get Your Assessment</a></div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="ahero">
+      <div>
+        <h1 class="aheadline">I'm not an agency.<br><em>I'm an operator.</em></h1>
+        <p class="asub">I find where your business leaks time and money. Then I fix it. Not with a presentation. Not with advice. With systems that run while you work.</p>
+        <p class="asub secondary">I've spent years inside businesses bleeding revenue through bad processes. I know where to look. Most people sell you a tool and leave. I find the problem first. Then I build the fix. Then I stick around to make sure it works.</p>
+        <a href="#" class="btn btn-primary btn-md" style="margin-top:28px;" onclick="go('start');return false;">Get Your Assessment →</a>
+      </div>
+      <div>
+        <div class="aphoto">
+          <div>
+            <div class="avatar" aria-hidden="true"></div>
+            <span>Clean background<br>Direct eye contact<br>Good lighting</span>
+          </div>
+        </div>
+        <div class="ainline-stats">
+          <div class="ais"><span class="ais-num">1</span><span class="ais-lbl">Goal: help you grow</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="acta-note">"If what you're reading sounds like what you need, the assessment is the right first step. No commitment. No pressure. Just clarity on where your money is going."</p>
+  </div>
+</section>
+
+<!-- ════════════════════ BLOG ════════════════════ -->
+<section id="blog" class="screen">
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#" onclick="go('work');return false;">Work</a>
+        <a href="#" onclick="go('services');return false;">Services</a>
+        <a href="#" onclick="go('process');return false;">Process</a>
+        <a href="#" onclick="go('about');return false;">About</a>
+        <a href="#" aria-current="page">Blog</a>
+      </nav>
+      <a href="#" class="btn btn-primary btn-sm nav-cta" onclick="go('start');return false;">Get Your Assessment</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu(this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="#" onclick="go('work');return false;">Work</a>
+      <a href="#" onclick="go('services');return false;">Services</a>
+      <a href="#" onclick="go('process');return false;">Process</a>
+      <a href="#" onclick="go('about');return false;">About</a>
+      <a href="#" onclick="go('blog');return false;">Blog</a>
+      <div class="mm-cta"><a href="#" class="btn btn-primary btn-md btn-block" onclick="go('start');return false;">Get Your Assessment</a></div>
+    </div>
+  </header>
+
+  <div class="blog-hero">
+    <p class="eyebrow">Case Studies</p>
+    <h1 class="blog-h1">Real businesses. Real fixes.</h1>
+    <p class="blog-sub">Every post is one job, one leak, and exactly what it took to seal it. No theory. No fluff. Just what was broken, what got built, and what changed.</p>
+  </div>
+  <div class="blog-grid">
+    <button class="bcard" onclick="go('article')">
+      <div class="bthumb" aria-hidden="true"><div class="mini-ui"><div class="mbar y" style="width:70%;"></div><div class="mbar" style="width:45%;background:#1a1a1a;"></div><div class="mbar" style="width:100%;"></div><div class="mbar g" style="width:55%;"></div></div></div>
+      <div class="binfo"><span class="btag">HVAC · Hialeah</span><span class="btitle">How a Miami HVAC shop stopped missing 20 calls a week</span><span class="chip">+$8,450/mo recovered</span><span class="bmeta">7 min read · June 2026</span></div>
+    </button>
+    <button class="bcard" onclick="go('article')">
+      <div class="bthumb" aria-hidden="true"><div class="mini-ui"><div class="mbar" style="width:45%;background:#1a1a1a;"></div><div class="mbar y" style="width:70%;"></div><div class="mbar g" style="width:55%;"></div></div></div>
+      <div class="binfo"><span class="btag">Plumbing · Miami</span><span class="btitle">The plumber who got paid in 9 days instead of 45</span><span class="chip">80% faster payment</span><span class="bmeta">6 min read · June 2026</span></div>
+    </button>
+    <button class="bcard" onclick="go('article')">
+      <div class="bthumb" aria-hidden="true"><div class="mini-ui"><div class="mbar y" style="width:70%;"></div><div class="mbar" style="width:100%;"></div><div class="mbar" style="width:45%;background:#1a1a1a;"></div><div class="mbar g" style="width:55%;"></div></div></div>
+      <div class="binfo"><span class="btag">Contracting · Broward</span><span class="btitle">Why this contractor stopped losing quotes to silence</span><span class="chip">+28% close rate</span><span class="bmeta">8 min read · May 2026</span></div>
+    </button>
+    <button class="bcard" onclick="go('article')">
+      <div class="bthumb" aria-hidden="true"><div class="mini-ui"><div class="mbar g" style="width:55%;"></div><div class="mbar y" style="width:70%;"></div><div class="mbar" style="width:45%;background:#1a1a1a;"></div></div></div>
+      <div class="binfo"><span class="btag">Landscaping · Doral</span><span class="btitle">One landscaper, 50 jobs, zero dropped follow ups</span><span class="chip">10 hrs/week back</span><span class="bmeta">5 min read · May 2026</span></div>
+    </button>
+  </div>
+</section>
+
+<!-- ════════════════════ BLOG ARTICLE ════════════════════ -->
+<section id="article" class="screen">
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#" onclick="go('work');return false;">Work</a>
+        <a href="#" onclick="go('services');return false;">Services</a>
+        <a href="#" onclick="go('process');return false;">Process</a>
+        <a href="#" onclick="go('about');return false;">About</a>
+        <a href="#" aria-current="page">Blog</a>
+      </nav>
+      <a href="#" class="btn btn-primary btn-sm nav-cta" onclick="go('start');return false;">Get Your Assessment</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu(this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="#" onclick="go('work');return false;">Work</a>
+      <a href="#" onclick="go('services');return false;">Services</a>
+      <a href="#" onclick="go('process');return false;">Process</a>
+      <a href="#" onclick="go('about');return false;">About</a>
+      <a href="#" onclick="go('blog');return false;">Blog</a>
+      <div class="mm-cta"><a href="#" class="btn btn-primary btn-md btn-block" onclick="go('start');return false;">Get Your Assessment</a></div>
+    </div>
+  </header>
+
+  <article class="art-wrap">
+    <button class="art-back" onclick="go('blog')">← All case studies</button>
+    <p class="eyebrow">HVAC · Hialeah</p>
+    <h1 class="art-h1">How a Miami HVAC shop stopped missing 20 calls a week</h1>
+    <p class="art-meta">By Booz · June 26, 2026 · 7 min read</p>
+    <div class="art-callout"><strong>The result</strong><span>$8,450 a month in missed calls, recovered. Response time went from 2 hours 47 minutes to under 30 seconds, with no new hire and no new ads.</span></div>
+    <div class="art-heroimg" role="img" aria-label="Hero image placeholder: hvac-shop-hero.jpg">[ hero image ]<br>hvac-shop-hero.jpg</div>
+    <div class="art-body">
+      <p>Twenty calls a week. Gone. That is what this shop was losing before anyone noticed, and every one of those calls was a homeowner with a dead AC in a Miami summer, ready to pay, dialing the next guy when nobody picked up.</p>
+      <p>The owner runs twelve trucks out of a yard in Hialeah. Good crew. Full schedule. Strong reviews. On paper the business looked healthy. Underneath it was bleeding, and the leak had nothing to do with the work. It was the phone.</p>
+      <h2>The problem</h2>
+      <p>Here is how a missed call actually happens. A homeowner's AC dies at 2pm. They search, they find three companies, they call all three. The first one to answer and sound like they know what they are doing wins the job. That is the whole contest. It is over in about four minutes.</p>
+      <p>This shop was answering in two hours and forty seven minutes on average. By then the homeowner had booked someone else and moved on. The call went to voicemail. The voicemail sat untouched until the next morning. The job was already gone.</p>
+      <p>Nobody was lazy. The office manager was buried. The techs were on roofs. The phone rang while everyone was already doing something, and the calls piled up in a voicemail box that may as well have been a trash can.</p>
+      <div class="art-fig">
+        <div class="art-figimg" role="img" aria-label="Inline image placeholder: hvac-dispatch-board.jpg">[ inline image ]<br>hvac-dispatch-board.jpg</div>
+        <p class="art-figcap">The dispatch board before. Every sticky note is a call somebody meant to return.</p>
+      </div>
+      <p>He had already thrown money at it. A bigger directory listing. A second office line. A note taped to the manager's monitor that said answer the phone. None of it worked, because none of it touched the actual gap, which was the ninety seconds between a call coming in and a human being free to take it.</p>
+      <p>I counted it over two weeks. Twenty three missed calls in seven days. At their average job value, that was roughly $8,450 walking out the door every month. Not from bad work. From silence.</p>
+      <h2>What I built</h2>
+      <p>A Lead Response System. Simple to describe, and it changed everything: never let a lead sit.</p>
+      <p>The moment a call comes in and nobody picks up, the system texts the caller back within thirty seconds. Not a robot voice. A real text that says the shop got their call, asks what is going on with their unit, and offers the next two open slots. If they reply, it books them and pings the office. If they go quiet, it follows up twice more over the next day.</p>
+      <blockquote class="art-quote">The phone stopped being a leak and started being a funnel. Same calls. Completely different outcome.</blockquote>
+      <p>When a caller picks a slot, the system drops it on the schedule and pings the office manager so she can confirm the tech and the timing. She went from chasing voicemails every morning to glancing at a clean list of customers who already want to book. The work got lighter, not heavier.</p>
+      <p>I wired it to the line they already had, so the crew did nothing different. No new app. No new habit. No training day. It runs whether the office manager is at her desk or out to lunch.</p>
+      <h2>The result</h2>
+      <p>First thirty days. Response time dropped from two hours and forty seven minutes to under thirty seconds. Missed calls stopped turning into lost jobs and started turning into booked ones.</p>
+      <div class="art-stats">
+        <div class="art-stat"><div class="art-stat-num">2h 47m → 30s</div><div class="art-stat-lbl">Response time</div></div>
+        <div class="art-stat"><span class="chip">+19</span><div class="art-stat-lbl">Extra jobs, month one</div></div>
+        <div class="art-stat"><div class="art-stat-num">$8,450</div><div class="art-stat-lbl">Recovered per month</div></div>
+      </div>
+      <p>The shop booked an extra nineteen jobs that month that would have gone to a competitor. The owner did not hire anyone. He did not run a single new ad. The leads were already coming in. They were just falling through the floor, and now the floor was sealed.</p>
+      <p>He put it plainly on our review call. He thought he had a marketing problem. He had a phone problem.</p>
+      <p>Three months in, the pattern held. The shop is not answering more calls than before. It is losing almost none of them. That is the whole difference between a business that feels stuck and one that finally keeps what it earns.</p>
+    </div>
+    <div class="art-cta dark-zone">
+      <h3>Got the same leak in your shop?</h3>
+      <p>If your phone rings while your crew is working, you are losing jobs you already paid to get. The assessment finds exactly how many, and exactly what it takes to stop it.</p>
+      <a href="#" class="btn btn-primary btn-md" onclick="go('start');return false;">Get Your Assessment →</a>
+    </div>
+  </article>
+</section>
+
+<!-- ════════════════════ START (FORM) ════════════════════ -->
+<section id="start" class="screen">
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#" onclick="go('work');return false;">Work</a>
+        <a href="#" onclick="go('services');return false;">Services</a>
+        <a href="#" onclick="go('process');return false;">Process</a>
+        <a href="#" onclick="go('about');return false;">About</a>
+        <a href="#" onclick="go('blog');return false;">Blog</a>
+      </nav>
+      <a href="#" class="btn btn-primary btn-sm nav-cta" onclick="go('start');return false;">Get Your Assessment</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu(this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="#" onclick="go('work');return false;">Work</a>
+      <a href="#" onclick="go('services');return false;">Services</a>
+      <a href="#" onclick="go('process');return false;">Process</a>
+      <a href="#" onclick="go('about');return false;">About</a>
+      <a href="#" onclick="go('blog');return false;">Blog</a>
+      <div class="mm-cta"><a href="#" class="btn btn-primary btn-md btn-block" onclick="go('start');return false;">Get Your Assessment</a></div>
+    </div>
+  </header>
+
+  <div class="startwrap">
+    <div id="startform">
+      <h1 class="starth">Tell me where it hurts.</h1>
+      <p class="startsub">Sixty seconds. I read every one of these myself. No bots, no call center.</p>
+
+      <div class="field" id="fw-name">
+        <label for="f-name">Name</label>
+        <input id="f-name" name="name" type="text" placeholder="Your name" autocomplete="name" aria-describedby="err-name">
+        <span class="field-error" id="err-name">Enter your name.</span>
+      </div>
+      <div class="field" id="fw-email">
+        <label for="f-email">Email</label>
+        <input id="f-email" name="email" type="email" placeholder="you@business.com" autocomplete="email" inputmode="email" aria-describedby="err-email">
+        <span class="field-error" id="err-email">Enter a working email.</span>
+      </div>
+      <div class="field" id="fw-phone">
+        <label for="f-phone">Phone</label>
+        <input id="f-phone" name="phone" type="tel" placeholder="(305) 555 0100" autocomplete="tel" inputmode="tel" aria-describedby="err-phone">
+        <span class="field-error" id="err-phone">Enter a phone number.</span>
+      </div>
+      <div class="field" id="fw-trade">
+        <label for="f-trade">Business type</label>
+        <select id="f-trade" name="business_type" aria-describedby="err-trade">
+          <option value="">Choose one</option>
+          <option>HVAC</option>
+          <option>Plumbing</option>
+          <option>Contracting</option>
+          <option>Landscaping</option>
+          <option>Electrical</option>
+          <option>Other</option>
+        </select>
+        <span class="field-error" id="err-trade">Pick your business type.</span>
+      </div>
+      <div class="field" id="fw-problem">
+        <label for="f-problem">What's the main thing costing you money right now?</label>
+        <textarea id="f-problem" name="problem" rows="4" placeholder="Tell me what's broken. The more real detail, the sharper my reply." aria-describedby="err-problem"></textarea>
+        <span class="field-error" id="err-problem">Tell me what's broken so I can actually help.</span>
+      </div>
+
+      <button class="btn btn-primary btn-lg btn-block" onclick="submitLead()">Send It →</button>
+      <p class="starttrust">Delivered in 48 Hours · No Long Term Commitment · 100% Confidential</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ CONFIRMATION STATE ════════════════════ -->
+<section id="confirm" class="screen">
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a class="logo" aria-label="BuildWithBooz" href="#" onclick="go('home');return false;"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#" onclick="go('work');return false;">Work</a>
+        <a href="#" onclick="go('services');return false;">Services</a>
+        <a href="#" onclick="go('process');return false;">Process</a>
+        <a href="#" onclick="go('about');return false;">About</a>
+        <a href="#" onclick="go('blog');return false;">Blog</a>
+      </nav>
+      <a href="#" class="btn btn-primary btn-sm nav-cta" onclick="go('start');return false;">Get Your Assessment</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu(this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="#" onclick="go('work');return false;">Work</a>
+      <a href="#" onclick="go('services');return false;">Services</a>
+      <a href="#" onclick="go('process');return false;">Process</a>
+      <a href="#" onclick="go('about');return false;">About</a>
+      <a href="#" onclick="go('blog');return false;">Blog</a>
+      <div class="mm-cta"><a href="#" class="btn btn-primary btn-md btn-block" onclick="go('start');return false;">Get Your Assessment</a></div>
+    </div>
+  </header>
+
+  <div class="startwrap">
+    <div class="startdone on" role="status">
+      <div class="donecheck" aria-hidden="true">✓</div>
+      <h1 class="doneh">Got it.</h1>
+      <p class="donep">Got your details. I read every one of these myself. If it looks like a fit, I'll reach out soon. Either way I'll point you toward something useful.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* ============================================================
+   PREVIEW SCAFFOLDING SCRIPT (V8)
+   In the Replit build: go() becomes router navigation,
+   submitLead() becomes the Convex submitLead mutation call,
+   and the confirmation screen becomes the post submit state.
+   Filter and mobile menu logic ports as is.
+   ============================================================ */
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.pv-tab').forEach(t=>{
+    t.setAttribute('aria-selected', t.dataset.screen===id ? 'true':'false');
+  });
+  document.querySelectorAll('.mobile-menu').forEach(m=>m.classList.remove('open'));
+  window.scrollTo({top:0,behavior:'auto'});
+}
+document.querySelectorAll('.pv-tab').forEach(t=>{
+  t.addEventListener('click',()=>go(t.dataset.screen));
+});
+
+function toggleMenu(btn){
+  const menu = btn.closest('.site-nav').querySelector('.mobile-menu');
+  const open = menu.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open ? 'true':'false');
+  btn.setAttribute('aria-label', open ? 'Close menu':'Open menu');
+}
+
+/* Work page category filter */
+document.querySelectorAll('.ftab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.ftab').forEach(t=>t.setAttribute('aria-pressed','false'));
+    tab.setAttribute('aria-pressed','true');
+    const f = tab.dataset.filter;
+    document.querySelectorAll('.wcard').forEach(card=>{
+      card.classList.toggle('hide', f!=='all' && card.dataset.cat!==f);
+    });
+  });
+});
+
+/* Form validation. Five fields. All required. Nothing scored. */
+function markInvalid(id, bad){
+  const wrap = document.getElementById('fw-'+id);
+  const input = document.getElementById('f-'+id);
+  wrap.classList.toggle('invalid', bad);
+  input.setAttribute('aria-invalid', bad ? 'true':'false');
+  return bad;
+}
+function submitLead(){
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const trade = document.getElementById('f-trade').value;
+  const problem = document.getElementById('f-problem').value.trim();
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  let firstBad = null;
+  if(markInvalid('name', !name) && !firstBad) firstBad='name';
+  if(markInvalid('email', !emailOk) && !firstBad) firstBad='email';
+  if(markInvalid('phone', !phone) && !firstBad) firstBad='phone';
+  if(markInvalid('trade', !trade) && !firstBad) firstBad='trade';
+  if(markInvalid('problem', !problem) && !firstBad) firstBad='problem';
+
+  if(firstBad){
+    document.getElementById('f-'+firstBad).focus();
+    return;
+  }
+  /* Replit build: replace with Convex submitLead mutation, then route to confirmation. */
+  go('confirm');
+}
+</script>
+</body>
+</html>

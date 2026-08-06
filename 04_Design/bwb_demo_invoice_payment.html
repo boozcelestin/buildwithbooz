@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildWithBooz Demo. Invoice and Payment System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BUILDWITHBOOZ · DEMO · INVOICE AND PAYMENT SYSTEM
+   V9 visual system. Paper surface, ink 111111, yellow F2C522
+   for action, green 22C55E for success. Hanken Grotesk text,
+   IBM Plex Mono labels and meta.
+   ============================================================ */
+:root{
+  --ink:#111111;
+  --paper:#FAFAF8;
+  --card:#FFFFFF;
+  --yellow:#F2C522;
+  --red:#E53935;
+  --green:#22C55E;
+  --line:#EAE9E3;
+  --line-strong:#D9D8D1;
+  --wash:#F3F2EC;
+  --muted:#6b6b6b;
+  --body:#333333;
+  --font:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --shadow-lift:0 10px 30px rgba(10,10,10,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:var(--font);
+  background:var(--paper);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:48px 24px 40px;
+}
+button{font-family:inherit;cursor:pointer;}
+
+/* label at top, eyebrow style */
+.demo-label{
+  font-family:var(--mono);font-size:12px;font-weight:500;
+  text-transform:uppercase;letter-spacing:1.2px;color:var(--ink);
+  text-align:center;
+}
+.demo-label::before{
+  content:'';display:inline-block;width:7px;height:7px;
+  background:var(--yellow);vertical-align:baseline;margin-right:9px;
+}
+
+/* captions */
+.caption{
+  max-width:460px;text-align:center;
+  font-size:17px;font-weight:500;color:#222;line-height:1.6;
+  letter-spacing:-.2px;
+}
+.caption.setup{margin-top:20px;}
+.caption.closing{margin-top:26px;font-size:15.5px;color:var(--muted);font-weight:500;}
+
+/* phone frame */
+.phone{
+  margin-top:28px;
+  width:380px;max-width:100%;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  box-shadow:var(--shadow-lift);
+  overflow:hidden;
+}
+.phone-head{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 18px;
+  border-bottom:1px solid var(--line);
+  background:var(--card);
+}
+.avatar{width:32px;height:32px;background:var(--ink);flex-shrink:0;}
+.phone-name{font-size:15px;font-weight:600;letter-spacing:-.2px;}
+
+/* chat area */
+.chat{
+  padding:20px 18px 22px;
+  display:flex;flex-direction:column;gap:6px;
+  min-height:452px;
+}
+.row{display:flex;flex-direction:column;margin-top:8px;}
+.row.shop{align-items:flex-start;}
+.meta{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.8px;color:#9a9a9a;
+  margin-bottom:4px;padding:0 4px;
+}
+.msg{
+  max-width:86%;
+  padding:12px 14px;
+  font-size:14.5px;line-height:1.5;
+  border-radius:10px;
+}
+.row.shop .msg{
+  background:var(--wash);
+  border:1px solid var(--line);
+  color:var(--ink);
+  border-top-left-radius:3px;
+}
+
+/* day markers */
+.daymark{
+  align-self:center;
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
+  text-transform:uppercase;letter-spacing:1.2px;color:#9a9a9a;
+  padding:8px 0 2px;
+}
+.daymark::before,.daymark::after{
+  content:'';display:block;width:28px;height:1px;background:var(--line-strong);
+}
+
+/* pay button inside invoice messages */
+.paywrap{position:relative;margin-top:12px;}
+.paybtn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  font-weight:600;font-size:12px;letter-spacing:.6px;text-transform:uppercase;
+  padding:10px 18px;border:none;border-radius:0;
+  background:var(--yellow);color:#000;
+  transition:background .5s ease-out,color .5s ease-out,transform .15s ease-out;
+}
+.paybtn .pn{display:inline;}
+.paybtn .pd{display:none;}
+.paybtn.pressed{transform:scale(.96);}
+.paybtn.paid{background:var(--green);color:#fff;}
+.paybtn.paid .pn{display:none;}
+.paybtn.paid .pd{display:inline-flex;align-items:center;gap:7px;}
+.paybtn .tick{font-size:13px;line-height:1;}
+
+/* tap ring */
+.tapring{
+  position:absolute;left:50%;top:50%;
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid var(--ink);
+  transform:translate(-50%,-50%) scale(.4);
+  opacity:0;pointer-events:none;
+}
+.tapring.go{animation:tap .55s ease-out forwards;}
+@keyframes tap{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.4);}
+  25%{opacity:.55;}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(2.6);}
+}
+
+/* status chip, yellow to green */
+.chipline{align-self:center;margin-top:18px;}
+.status-chip{
+  display:inline-block;
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;
+  padding:8px 13px;border-radius:0;
+  background:var(--yellow);color:#000;
+  max-width:300px;text-align:center;line-height:1.55;
+  transition:background .7s ease-out,color .7s ease-out;
+}
+.status-chip .tick{display:inline-block;opacity:0;transition:opacity .5s ease-out;margin-right:6px;}
+.status-chip.ok{background:var(--green);color:#fff;}
+.status-chip.ok .tick{opacity:1;}
+
+/* replay */
+.replay-wrap{margin-top:26px;height:38px;display:flex;align-items:center;justify-content:center;}
+.replay{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:9px 18px;border-radius:0;
+  background:transparent;color:var(--ink);
+  border:2px solid var(--ink);
+  opacity:0;visibility:hidden;transform:translateY(6px);
+  transition:opacity .4s ease-out,transform .4s ease-out,background .18s ease-out,color .18s ease-out;
+}
+.replay.show{opacity:1;visibility:visible;transform:none;}
+.replay:hover{background:var(--ink);color:#fff;}
+
+/* wordmark */
+.brand{
+  margin-top:22px;
+  font-size:15px;font-weight:500;letter-spacing:-.012em;color:var(--ink);
+}
+.ld{position:relative;display:inline-block;font-style:normal;}
+.ld::after{
+  content:'';position:absolute;left:50%;transform:translateX(-50%);
+  top:.07em;width:.13em;height:.13em;background:var(--yellow);
+}
+
+/* reveal steps */
+.step{opacity:0;transform:translateY(9px);transition:opacity .45s ease-out,transform .45s ease-out;}
+.step.show{opacity:1;transform:none;}
+
+@media (max-width:460px){
+  .chat{min-height:0;}
+}
+</style>
+</head>
+<body>
+
+<p class="demo-label">Example of the Invoice and Payment System</p>
+
+<p class="caption setup">The job is done. Now you have to get paid. Here is what the Invoice and Payment System does so you are not the one chasing.</p>
+
+<div class="phone" role="img" aria-label="Example text message exchange">
+  <div class="phone-head">
+    <span class="avatar" aria-hidden="true"></span>
+    <span class="phone-name">Bayside Air</span>
+  </div>
+  <div class="chat" id="chat">
+
+    <div class="daymark step" data-step="1">Day of the job</div>
+
+    <div class="row shop step" data-step="2">
+      <div class="msg">
+        Thanks again for today. Here is your invoice for the work we completed. You can pay right here.
+        <div class="paywrap">
+          <button class="paybtn" type="button" tabindex="-1">
+            <span class="pn">Pay now</span>
+            <span class="pd"><span class="tick">✓</span>Paid</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="daymark step" data-step="3">Three days later</div>
+
+    <div class="row shop step" data-step="4">
+      <span class="meta">Automatic</span>
+      <div class="msg">
+        Friendly reminder, your invoice is still open. Tap to pay, it takes a few seconds.
+        <div class="paywrap">
+          <button class="paybtn" id="payBtn2" type="button" tabindex="-1">
+            <span class="pn">Pay now</span>
+            <span class="pd"><span class="tick">✓</span>Paid</span>
+          </button>
+          <span class="tapring" id="tapRing" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chipline step" data-step="5">
+      <span class="status-chip" id="statusChip"><span class="tick">✓</span>Paid in days, not weeks. No awkward phone call.</span>
+    </div>
+
+  </div>
+</div>
+
+<p class="caption closing">The reminders went out on their own. You just got paid.</p>
+
+<div class="replay-wrap">
+  <button class="replay" id="replayBtn" onclick="replay()">Replay</button>
+</div>
+
+<p class="brand" aria-label="BuildWithBooz"><span aria-hidden="true">Bu<span class="ld">ı</span>ldW<span class="ld">ı</span>thBooz</span></p>
+
+<script>
+(function(){
+  var timers=[];
+  var chip=document.getElementById('statusChip');
+  var replayBtn=document.getElementById('replayBtn');
+  var payBtn2=document.getElementById('payBtn2');
+  var tapRing=document.getElementById('tapRing');
+
+  function at(t,fn){timers.push(setTimeout(fn,t));}
+  function showStep(n){
+    var el=document.querySelector('[data-step="'+n+'"]');
+    if(el){el.classList.add('show');}
+  }
+  function clearTimers(){
+    for(var i=0;i<timers.length;i++){clearTimeout(timers[i]);}
+    timers=[];
+  }
+
+  function play(){
+    clearTimers();
+    at(500,function(){showStep(1);});
+    at(1700,function(){showStep(2);});
+    at(3600,function(){showStep(3);});
+    at(4800,function(){showStep(4);});
+    at(6700,function(){
+      tapRing.classList.add('go');
+      payBtn2.classList.add('pressed');
+    });
+    at(7050,function(){
+      payBtn2.classList.remove('pressed');
+      payBtn2.classList.add('paid');
+    });
+    at(8400,function(){showStep(5);});
+    at(9500,function(){chip.classList.add('ok');});
+    at(10500,function(){replayBtn.classList.add('show');});
+  }
+
+  function reset(){
+    clearTimers();
+    var steps=document.querySelectorAll('.step');
+    for(var i=0;i<steps.length;i++){steps[i].classList.remove('show');}
+    chip.classList.remove('ok');
+    payBtn2.classList.remove('paid');
+    payBtn2.classList.remove('pressed');
+    tapRing.classList.remove('go');
+    replayBtn.classList.remove('show');
+  }
+
+  window.replay=function(){
+    reset();
+    setTimeout(play,450);
+  };
+
+  window.addEventListener('load',function(){setTimeout(play,300);});
+})();
+</script>
+
+</body>
+</html>
