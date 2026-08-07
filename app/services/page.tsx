@@ -79,11 +79,9 @@ export default function ServicesPage() {
               <div className="svprice-lbl">Investment</div>
               <div className="svprice">$1,000</div>
               <div className="entry-actions">
-                <form action="/api/stripe/checkout" method="post">
-                  <button className="btn btn-primary btn-md btn-wrap" type="submit">
-                    Start the assessment
-                  </button>
-                </form>
+                <ButtonLink href="/assessment" size="md" wrap>
+                  See the assessment
+                </ButtonLink>
                 <ButtonLink href="/sample-assessment" variant="outline" size="md" wrap>
                   See a sample assessment
                 </ButtonLink>
@@ -125,9 +123,13 @@ export default function ServicesPage() {
               <div>
                 <h2 className="svupsell-h">When you want the whole picture.</h2>
                 <p>
-                  The Strategic Diagnostic is a deep look at your entire operation. Every leak, every
-                  leverage point, ranked and priced.
+                  The Operations Blueprint maps your entire operation, finds every leak and every
+                  dollar sitting unused, and hands you the ranked plan to fix it. For multiple crews,
+                  more than one location, a full office.
                 </p>
+                <ButtonLink href="/operations-blueprint" variant="outline" size="md" wrap>
+                  See the Operations Blueprint
+                </ButtonLink>
               </div>
               <div>
                 <div className="svprice-lbl">Investment</div>

@@ -161,7 +161,7 @@ export default function SampleAssessmentPage() {
               This is an illustrative example. Yours is built on your real numbers, the same
               deliverable, ranked for your shop.
             </p>
-            <ButtonLink href="/services#assessment-title" size="md">
+            <ButtonLink href="/assessment" size="md">
               See the assessment and start
             </ButtonLink>
           </section>

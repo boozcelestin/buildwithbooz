@@ -91,6 +91,6 @@ export async function getContentBySlug(
   return entries.find((entry) => entry.slug === slug) ?? null;
 }
 
-export function isPlaceholderContent(entry: ContentEntry) {
-  return entry.body.includes("Placeholder text.");
+export function isDraftContent(entry: ContentEntry) {
+  return entry.body.includes("Draft text.");
 }

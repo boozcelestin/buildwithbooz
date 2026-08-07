@@ -97,7 +97,6 @@ export function LeadForm({ context, kind }: LeadFormProps) {
           autoComplete="name"
           id={`${kind}-name`}
           name="name"
-          placeholder="Your name"
           type="text"
         />
       </div>
@@ -109,7 +108,6 @@ export function LeadForm({ context, kind }: LeadFormProps) {
           id={`${kind}-email`}
           inputMode="email"
           name="email"
-          placeholder="you@business.com"
           required
           type="email"
         />
@@ -122,7 +120,6 @@ export function LeadForm({ context, kind }: LeadFormProps) {
           id={`${kind}-phone`}
           inputMode="tel"
           name="phone"
-          placeholder="(305) 555 0100"
           type="tel"
         />
       </div>
@@ -134,7 +131,6 @@ export function LeadForm({ context, kind }: LeadFormProps) {
             autoComplete="organization"
             id="enterprise-company"
             name="company"
-            placeholder="Your company"
             type="text"
           />
         </div>
@@ -161,11 +157,6 @@ export function LeadForm({ context, kind }: LeadFormProps) {
         <textarea
           id={`${kind}-message`}
           name="message"
-          placeholder={
-            enterprise
-              ? "The situation, the goal, and what you have already tried."
-              : "Tell me what is going on. The more real detail, the sharper my reply."
-          }
           required
           rows={enterprise ? 5 : 4}
         />

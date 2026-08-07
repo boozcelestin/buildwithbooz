@@ -6,6 +6,7 @@ test.describe("public site launch smoke checks", () => {
       "/",
       "/about",
       "/services",
+      "/assessment",
       "/process",
       "/gap-finder",
       "/insights",
@@ -23,10 +24,12 @@ test.describe("public site launch smoke checks", () => {
     }
   });
 
-  test("services preserves the assessment purchase handoff", async ({ page }) => {
+  test("services sends the assessment purchase handoff to the assessment page", async ({ page }) => {
     await page.goto("/services");
-    await expect(page.locator('form[action="/api/stripe/checkout"]')).toHaveCount(1);
-    await expect(page.getByRole("button", { name: "Start the assessment" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "See the assessment" })).toHaveAttribute(
+      "href",
+      "/assessment",
+    );
     await expect(page.getByText("$1,000", { exact: true })).toBeVisible();
   });
 
@@ -61,7 +64,7 @@ test.describe("public site launch smoke checks", () => {
     await expect(page.locator(".gfr-card")).toHaveCount(3);
   });
 
-  test("SEO endpoints and placeholder protection are present", async ({ page, request }) => {
+  test("SEO endpoints and draft protection are present", async ({ page, request }) => {
     await page.goto("/privacy");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
       "content",

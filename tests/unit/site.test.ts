@@ -31,11 +31,11 @@ describe("site metadata", () => {
     });
   });
 
-  it("keeps placeholder pages out of search results", () => {
+  it("keeps draft pages out of search results", () => {
     expect(
       createPageMetadata({
         title: "Terms",
-        description: "Placeholder legal copy.",
+        description: "Draft legal copy.",
         path: "/terms",
         index: false,
       }),

@@ -38,7 +38,7 @@ Nav and footer: exactly as the prototype, including the quiet enterprise footer 
 ## 4. The Gap Finder (the core build)
 - Keep the prototype's exact flow and look: the click-through of 7 questions, the live-filling dark result card.
 - RULES ENGINE, not an LLM. No API call per visit, no score number shown. The 7 answers map to ranked leak areas by deterministic rules.
-- DYNAMIC RESULT: the result must vary by the goal the visitor picked and the leak areas their 7 answers rank. Assemble the shown result from the Gap Finder result kit blocks (companion doc). The prototype's single hardcoded HVAC sample is a placeholder; production must produce the right blocks per person.
+- DYNAMIC RESULT: the result must vary by the goal the visitor picked and the leak areas their 7 answers rank. Assemble the shown result from the Gap Finder result kit blocks (companion doc). The prototype's single hardcoded HVAC sample is a draft; production must produce the right blocks per person.
 - EMAIL CAPTURE (after the result, never gated): under the on-screen result, show the offer line exactly: "Want your results and a short plan for fixing your biggest leak sent to you?" plus an email field. Storing the email is required; showing the result is not conditional on it.
 - STORE every completion in Convex: the 7 answers, the computed ranked leaks, the goal, timestamp, and email if given.
 - EMAIL (Resend, from a Convex function): send the person their result plus a short templated plan for their top leak (from the kit) plus a clear CTA to the paid $1,000 Automation Assessment. The email is a sales asset, not a receipt. The copy is assembled in code from the kit; Resend only delivers.
@@ -74,7 +74,7 @@ Per-page title + meta description (present in the prototype, carry them), Open G
 - Gap Finder: FREE.
 - Automation Assessment: $1,000. Produces the scoped, prioritized plan. This fee is CREDITED toward the build if they proceed (honest, removes friction, rewards commitment).
 - Implementation / builds: quoted inside the assessment. Typical range $5,000 to $10,000 plus.
-- Strategic Diagnostic: $5,000 (the deeper version for more complex businesses).
+- The Operations Blueprint: $5,000 (the deeper version for more complex businesses).
 - Ongoing care plan (optional, after a build): a monthly retainer to run and maintain the systems, priced to what's being managed. Flag as optional.
 Transparent pricing block and the "we build what pays, not a package" caveat stay exactly as designed. No sales calls: price on the page, pay, onboard.
 

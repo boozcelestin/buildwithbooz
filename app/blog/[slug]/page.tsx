@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { MarkdownArticle } from "@/src/components/content/MarkdownArticle";
 import { SiteHeader } from "@/src/components/site/SiteHeader";
-import { getAllContent, getContentBySlug, isPlaceholderContent } from "@/src/lib/content";
+import { getAllContent, getContentBySlug, isDraftContent } from "@/src/lib/content";
 import { createPageMetadata } from "@/src/lib/site";
 
 type BlogPostPageProps = {
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       entry.frontmatter.summary ??
       "Plain reads on building better systems for local service businesses.",
     path: `/blog/${entry.slug}`,
-    index: !isPlaceholderContent(entry),
+    index: !isDraftContent(entry),
   });
 }
 

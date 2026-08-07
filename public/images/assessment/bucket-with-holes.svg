@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" font-family="'Hanken Grotesk','Helvetica Neue',Arial,sans-serif" role="img" aria-label="A bucket labeled with three leaks: missed call, quote not followed up, and invoice not chased, with money draining out the bottom.">
+  <rect width="960" height="600" fill="#FAFAF8"/>
+
+  <!-- palette: ink #111111, paper #FAFAF8, yellow #F2C522, coin #F7D34E -->
+
+  <!-- handle -->
+  <path d="M205 168 Q 305 58 410 168" fill="none" stroke="#111111" stroke-width="4.5" stroke-linecap="round"/>
+
+  <!-- bucket body -->
+  <path d="M180 165 L 246 462 Q 308 492 372 462 L 438 165 A 130 30 0 0 1 180 165 Z"
+        fill="#FBFAF6" stroke="#111111" stroke-width="4.5" stroke-linejoin="round"/>
+
+  <!-- rim opening -->
+  <ellipse cx="309" cy="165" rx="129" ry="30" fill="#EFEDE7" stroke="#111111" stroke-width="4.5"/>
+  <ellipse cx="309" cy="165" rx="110" ry="23" fill="none" stroke="#111111" stroke-width="1.5" opacity="0.35"/>
+
+  <!-- leak streams running down the outside of the bucket into the puddle -->
+  <g fill="none" stroke="#F2C522" stroke-width="7" stroke-linecap="round">
+    <path d="M352 292 C 362 352, 340 452, 322 520"/>
+    <path d="M388 355 C 398 400, 350 472, 330 520"/>
+    <path d="M360 412 C 368 448, 336 492, 324 520"/>
+  </g>
+  <!-- falling drops -->
+  <path d="M300 500 C 307 508, 308 512, 300 520 C 292 512, 293 508, 300 500 Z" fill="#F2C522"/>
+  <path d="M410 452 C 417 460, 418 464, 410 472 C 402 464, 403 460, 410 452 Z" fill="#F2C522" opacity="0.85"/>
+
+  <!-- holes (drawn over the body, streams appear to come from them) -->
+  <ellipse cx="352" cy="286" rx="11" ry="8" fill="#111111"/>
+  <ellipse cx="388" cy="349" rx="12" ry="8" fill="#111111"/>
+  <ellipse cx="360" cy="406" rx="11" ry="8" fill="#111111"/>
+
+  <!-- lost-money puddle at the base -->
+  <ellipse cx="322" cy="536" rx="140" ry="16" fill="#F2C522"/>
+  <ellipse cx="322" cy="532" rx="140" ry="16" fill="#F7D34E" opacity="0.5"/>
+  <g stroke="#111111" stroke-width="2">
+    <circle cx="244" cy="528" r="15" fill="#F7D34E"/>
+    <circle cx="330" cy="536" r="18" fill="#F7D34E"/>
+    <circle cx="408" cy="528" r="14" fill="#F7D34E"/>
+  </g>
+  <text x="238" y="534" font-size="17" font-weight="800" fill="#111111">$</text>
+  <text x="323" y="543" font-size="20" font-weight="800" fill="#111111">$</text>
+  <text x="402" y="534" font-size="16" font-weight="800" fill="#111111">$</text>
+
+  <!-- labels + leaders -->
+  <g stroke="#111111" stroke-width="1.5">
+    <line x1="362" y1="284" x2="598" y2="238"/>
+    <line x1="400" y1="349" x2="598" y2="352"/>
+    <line x1="371" y1="406" x2="598" y2="466"/>
+  </g>
+  <g fill="#111111">
+    <circle cx="362" cy="284" r="3"/><circle cx="400" cy="349" r="3"/><circle cx="371" cy="406" r="3"/>
+  </g>
+
+  <text x="610" y="236" font-size="25" font-weight="800" fill="#111111">Missed call</text>
+  <text x="610" y="261" font-size="15" fill="#111111" opacity="0.6">goes to voicemail, never called back</text>
+
+  <text x="610" y="350" font-size="25" font-weight="800" fill="#111111">Quote not followed up</text>
+  <text x="610" y="375" font-size="15" fill="#111111" opacity="0.6">sent once, then silence</text>
+
+  <text x="610" y="464" font-size="25" font-weight="800" fill="#111111">Invoice not chased</text>
+  <text x="610" y="489" font-size="15" fill="#111111" opacity="0.6">work done, money still out</text>
+</svg>

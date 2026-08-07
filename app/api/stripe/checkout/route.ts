@@ -3,27 +3,47 @@ import Stripe from "stripe";
 
 import {
   buildAssessmentCheckoutSession,
+  buildOperationsBlueprintCheckoutSession,
+  isOperationsBlueprintPrice,
   isAutomationAssessmentPrice,
   readAssessmentCheckoutConfig,
+  readBlueprintCheckoutConfig,
   resolveSiteOrigin,
 } from "@/src/features/stripe/checkout";
 
 export const runtime = "nodejs";
 
-function returnToAssessment(request: Request) {
-  const servicesUrl = new URL("/services", request.url);
-  servicesUrl.hash = "assessment-title";
-  return NextResponse.redirect(servicesUrl, 303);
+function returnToProduct(request: Request, product: "assessment" | "blueprint") {
+  return NextResponse.redirect(
+    new URL(product === "blueprint" ? "/operations-blueprint" : "/assessment", request.url),
+    303,
+  );
 }
 
 export async function POST(request: Request) {
-  const config = readAssessmentCheckoutConfig({
-    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-    STRIPE_PRICE_ID: process.env.STRIPE_PRICE_ID,
-  });
+  let product: "assessment" | "blueprint" = "assessment";
+  try {
+    const formData = await request.formData();
+    if (formData.get("product") === "operations_blueprint") {
+      product = "blueprint";
+    }
+  } catch {
+    // Assessment checkout forms do not need a request body.
+  }
+
+  const config =
+    product === "blueprint"
+      ? readBlueprintCheckoutConfig({
+          STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+          STRIPE_PRICE_ID_BLUEPRINT: process.env.STRIPE_PRICE_ID_BLUEPRINT,
+        })
+      : readAssessmentCheckoutConfig({
+          STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+          STRIPE_PRICE_ID: process.env.STRIPE_PRICE_ID,
+        });
 
   if (!config) {
-    return returnToAssessment(request);
+    return returnToProduct(request, product);
   }
 
   try {
@@ -33,20 +53,24 @@ export async function POST(request: Request) {
     });
     const price = await stripe.prices.retrieve(config.priceId);
 
-    if (!isAutomationAssessmentPrice(price)) {
-      return returnToAssessment(request);
+    const validPrice =
+      product === "blueprint" ? isOperationsBlueprintPrice(price) : isAutomationAssessmentPrice(price);
+    if (!validPrice) {
+      return returnToProduct(request, product);
     }
 
     const session = await stripe.checkout.sessions.create(
-      buildAssessmentCheckoutSession(config.priceId, siteOrigin),
+      product === "blueprint"
+        ? buildOperationsBlueprintCheckoutSession(config.priceId, siteOrigin)
+        : buildAssessmentCheckoutSession(config.priceId, siteOrigin),
     );
 
     if (!session.url) {
-      return returnToAssessment(request);
+      return returnToProduct(request, product);
     }
 
     return NextResponse.redirect(session.url, 303);
   } catch {
-    return returnToAssessment(request);
+    return returnToProduct(request, product);
   }
 }

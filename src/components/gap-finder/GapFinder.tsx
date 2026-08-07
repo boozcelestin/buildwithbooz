@@ -178,7 +178,7 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
                   ))}
                 </div>
                 <div className="gf-buy">
-                  <Link href="/services">See what the full assessment covers</Link>
+                  <Link href="/assessment">See what the full assessment covers</Link>
                 </div>
               </div>
             ) : (
@@ -220,7 +220,6 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
                           inputMode="email"
                           name="email"
                           onChange={(event) => setEmail(event.target.value)}
-                          placeholder="you@business.com"
                           required
                           type="email"
                           value={email}
@@ -239,7 +238,7 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
                   )}
                 </div>
                 <div className="gfr-actions">
-                  <ButtonLink href="/services" size="md" wrap>
+                  <ButtonLink href="/assessment" size="md" wrap>
                     See what the full assessment covers
                   </ButtonLink>
                   <ButtonLink href={contactHref} size="md" variant="outline" wrap>

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { MarkdownArticle } from "@/src/components/content/MarkdownArticle";
 import { WhitePaperArticle } from "@/src/components/content/WhitePaperArticle";
 import { SiteHeader } from "@/src/components/site/SiteHeader";
-import { getAllContent, getContentBySlug, isPlaceholderContent } from "@/src/lib/content";
+import { getAllContent, getContentBySlug, isDraftContent } from "@/src/lib/content";
 import { createPageMetadata } from "@/src/lib/site";
 
 type InsightPageProps = {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: InsightPageProps): Promise<Me
       entry.frontmatter.summary ??
       "Plain reads on where service businesses leak money, and what to actually do about it. No theory. No fluff.",
     path: `/insights/${entry.slug}`,
-    index: !isPlaceholderContent(entry),
+    index: !isDraftContent(entry),
   });
 }
 

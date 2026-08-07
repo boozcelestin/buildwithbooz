@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { getAllContent, isPlaceholderContent } from "@/src/lib/content";
+import { getAllContent, isDraftContent } from "@/src/lib/content";
 import { getSiteUrl } from "@/src/lib/site";
 
 type SitemapEntry = {
@@ -12,6 +12,8 @@ type SitemapEntry = {
 const staticEntries: SitemapEntry[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/services", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/assessment", changeFrequency: "monthly", priority: 1 },
+  { path: "/operations-blueprint", changeFrequency: "monthly", priority: 0.9 },
   { path: "/gap-finder", changeFrequency: "monthly", priority: 0.9 },
   { path: "/insights", changeFrequency: "weekly", priority: 0.8 },
   { path: "/process", changeFrequency: "monthly", priority: 0.7 },
@@ -34,14 +36,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
   const contentEntries: SitemapEntry[] = [
     ...insights
-      .filter((entry) => !isPlaceholderContent(entry))
+      .filter((entry) => !isDraftContent(entry))
       .map((entry) => ({
         path: `/insights/${entry.slug}`,
         changeFrequency: "monthly" as const,
         priority: 0.7,
       })),
     ...blogPosts
-      .filter((entry) => !isPlaceholderContent(entry))
+      .filter((entry) => !isDraftContent(entry))
       .map((entry) => ({
         path: `/blog/${entry.slug}`,
         changeFrequency: "monthly" as const,

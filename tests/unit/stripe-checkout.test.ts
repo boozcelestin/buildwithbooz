@@ -2,9 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import {
   assessmentAmountInCents,
+  blueprintAmountInCents,
   buildAssessmentCheckoutSession,
+  buildOperationsBlueprintCheckoutSession,
   isAutomationAssessmentPrice,
+  isOperationsBlueprintPrice,
   readAssessmentCheckoutConfig,
+  readBlueprintCheckoutConfig,
   resolveSiteOrigin,
 } from "../../src/features/stripe/checkout";
 
@@ -78,7 +82,59 @@ describe("Stripe assessment checkout", () => {
       "https://buildwithbooz.com/assessment/thank-you?session_id=%7BCHECKOUT_SESSION_ID%7D",
     );
     expect(session.cancel_url).toBe(
-      "https://buildwithbooz.com/services?checkout=cancelled#assessment-title",
+      "https://buildwithbooz.com/assessment?checkout=cancelled",
+    );
+  });
+});
+
+describe("Stripe Operations Blueprint checkout", () => {
+  it("requires the server side Blueprint Stripe values", () => {
+    expect(readBlueprintCheckoutConfig({})).toBeNull();
+    expect(
+      readBlueprintCheckoutConfig({
+        STRIPE_SECRET_KEY: "  secret  ",
+        STRIPE_PRICE_ID_BLUEPRINT: "  price_blueprint  ",
+      }),
+    ).toEqual({ secretKey: "secret", priceId: "price_blueprint" });
+  });
+
+  it("accepts only the active one time USD price for exactly $5,000", () => {
+    expect(blueprintAmountInCents).toBe(500_000);
+    expect(
+      isOperationsBlueprintPrice({
+        active: true,
+        currency: "usd",
+        type: "one_time",
+        unit_amount: 500_000,
+      }),
+    ).toBe(true);
+    expect(
+      isOperationsBlueprintPrice({
+        active: true,
+        currency: "usd",
+        type: "one_time",
+        unit_amount: 100_000,
+      }),
+    ).toBe(false);
+  });
+
+  it("creates the Blueprint session with its own return routes and metadata", () => {
+    const session = buildOperationsBlueprintCheckoutSession(
+      "price_blueprint",
+      "https://buildwithbooz.com",
+    );
+
+    expect(session).toMatchObject({
+      mode: "payment",
+      line_items: [{ price: "price_blueprint", quantity: 1 }],
+      metadata: { purchase: "operations_blueprint" },
+      payment_intent_data: { metadata: { purchase: "operations_blueprint" } },
+    });
+    expect(session.success_url).toBe(
+      "https://buildwithbooz.com/operations-blueprint?checkout=success&session_id=%7BCHECKOUT_SESSION_ID%7D",
+    );
+    expect(session.cancel_url).toBe(
+      "https://buildwithbooz.com/operations-blueprint?checkout=cancelled",
     );
   });
 });
