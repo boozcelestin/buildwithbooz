@@ -110,9 +110,6 @@ export default function OperationsBlueprintPage() {
         <section className="assessment-dark dark-zone">
           <div className="container assessment-copy-wide">
             <h2 className="assessment-heading">Plans are free now. Doing is the scarce part.</h2>
-            <blockquote className="assessment-quote">
-              Plans are free now. Doing is the scarce part.
-            </blockquote>
             <p className="assessment-body">
               Here is the trap of right now. Everyone has a tool that hands them a plan in thirty
               seconds. Ask any AI how to fix your business and it spits out a tidy list. So plans are
@@ -275,6 +272,7 @@ export default function OperationsBlueprintPage() {
 
         <section className="assessment-close dark-zone">
           <div className="container assessment-close-inner">
+            <h2 className="assessment-heading">Close</h2>
             <p className="assessment-body">
               You did not start this to be the reason it works. You have known that for a while, and
               knowing was never going to fix it, and another free plan from a robot will not either. What

@@ -127,7 +127,7 @@ export default function ServicesPage() {
                   dollar sitting unused, and hands you the ranked plan to fix it. For multiple crews,
                   more than one location, a full office.
                 </p>
-                <ButtonLink href="/operations-blueprint" variant="outline" size="md" wrap>
+                <ButtonLink href="/operations-blueprint" variant="primary" size="md" wrap>
                   See the Operations Blueprint
                 </ButtonLink>
               </div>
