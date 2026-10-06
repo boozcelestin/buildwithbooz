@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { type FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import posthog from "posthog-js";
 
 import { ButtonLink } from "@/src/components/site/ButtonLink";
 import { TurnstileWidget } from "@/src/components/forms/TurnstileWidget";
@@ -102,10 +103,20 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
       return;
     }
 
+    if (optionIds.length === 0) {
+      posthog.capture("gap_finder_started", {
+        has_calculator_context: Boolean(sourceContext),
+      });
+    }
+
     const nextOptionIds = [...optionIds, optionId];
     setOptionIds(nextOptionIds);
 
     if (nextOptionIds.length === gapFinderQuestions.length) {
+      posthog.capture("gap_finder_completed", {
+        goal: getGoalId(nextOptionIds),
+        has_calculator_context: Boolean(sourceContext),
+      });
       setCompletionToken(crypto.randomUUID());
     }
   }
@@ -124,6 +135,10 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
 
     try {
       await storeCompletion(completionToken, optionIds, email, turnstileToken, sourceContext);
+      posthog.capture("gap_finder_results_requested", {
+        goal,
+        has_calculator_context: Boolean(sourceContext),
+      });
       setEmailStatus("saved");
     } catch {
       setEmailError("We could not send your results. Please try again.");

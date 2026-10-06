@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
+import posthog from "posthog-js";
 
 import { calculatorDefinitions } from "@/src/features/calculators/definitions";
 import type {
@@ -61,6 +62,7 @@ export function Calculator({ slug }: CalculatorProps) {
 
   function calculate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    posthog.capture("calculator_calculated", { calculator: slug });
     setResult(definition.calculate(numericValues(values)));
   }
 

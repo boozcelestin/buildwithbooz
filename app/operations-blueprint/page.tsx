@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { CheckoutButton } from "@/src/components/forms/CheckoutButton";
 import { ButtonLink } from "@/src/components/site/ButtonLink";
 import { SiteFooter } from "@/src/components/site/SiteFooter";
 import { SiteHeader } from "@/src/components/site/SiteHeader";
@@ -16,12 +17,9 @@ export const metadata: Metadata = createPageMetadata({
 
 function BlueprintCheckoutButton({ size = "md" }: { size?: "md" | "lg" }) {
   return (
-    <form action="/api/stripe/checkout" method="post">
-      <input name="product" type="hidden" value="operations_blueprint" />
-      <button className={`btn btn-primary btn-${size} btn-wrap`} type="submit">
-        Start the Blueprint. $5,000
-      </button>
-    </form>
+    <CheckoutButton product="operations_blueprint" size={size}>
+      Start the Blueprint. $5,000
+    </CheckoutButton>
   );
 }
 

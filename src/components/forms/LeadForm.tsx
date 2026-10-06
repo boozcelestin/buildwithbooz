@@ -1,6 +1,7 @@
 "use client";
 
 import { type FormEvent, useRef, useState } from "react";
+import posthog from "posthog-js";
 
 import type { LeadContext, LeadFormKind } from "@/src/features/leads/types";
 
@@ -57,6 +58,11 @@ export function LeadForm({ context, kind }: LeadFormProps) {
         throw new Error("Lead could not be stored.");
       }
 
+      posthog.capture("lead_form_submitted", {
+        form_kind: kind,
+        has_calculator_context: Boolean(context?.calculator),
+        has_gap_finder_context: Boolean(context?.gapFinder),
+      });
       setSubmitted(true);
     } catch {
       setFormError("We could not send your message. Please try again.");

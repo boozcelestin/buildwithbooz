@@ -1,6 +1,7 @@
 "use client";
 
 import { type FormEvent, useState } from "react";
+import posthog from "posthog-js";
 
 import { TurnstileWidget } from "./TurnstileWidget";
 
@@ -101,6 +102,7 @@ export function AssessmentIntakeForm({ sessionId, initialEmail }: AssessmentInta
         throw new Error("Intake could not be stored.");
       }
 
+      posthog.capture("assessment_intake_submitted");
       setSubmitted(true);
     } catch {
       setFormError("We could not send your intake. Please try again.");
