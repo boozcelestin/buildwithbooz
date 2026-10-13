@@ -15,8 +15,10 @@ if (!projectToken || !host) {
   }
 } else {
   posthog.init(projectToken, {
-    api_host: host,
+    api_host: "/ingest",
+    ui_host: "https://us.posthog.com",
     defaults: "2026-01-30",
+    capture_pageview: "history_change",
     capture_exceptions: true,
     debug: process.env.NODE_ENV === "development",
   });
