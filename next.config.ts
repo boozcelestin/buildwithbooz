@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
   // PostHog reverse proxy: keeps ingestion first-party so ad blockers and
   // tracking-prevention heuristics do not drop events.
   skipTrailingSlashRedirect: true,
+  async redirects() {
+    return [
+      {
+        source: "/insights/not-every-business-should-automate",
+        destination: "/insights/talk-you-out-of-an-ai-agent",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
