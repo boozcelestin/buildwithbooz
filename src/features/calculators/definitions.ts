@@ -44,7 +44,7 @@ function hasEveryValue(values: Record<string, number>, fields: string[]) {
 
 const missedCall: CalculatorDefinition = {
   slug: "missed-call-revenue-calculator",
-  metaTitle: "Missed Call Revenue Calculator for Trades Businesses",
+  metaTitle: "Missed Call Revenue Calculator for Trades",
   metaDescription:
     "See what unanswered calls are costing your trades business every month. Free calculator, no signup.",
   title: "Missed Call Revenue Calculator",
