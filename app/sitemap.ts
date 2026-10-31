@@ -21,6 +21,7 @@ const staticEntries: SitemapEntry[] = [
   { path: "/sample-assessment", changeFrequency: "monthly", priority: 0.7 },
   { path: "/contact", changeFrequency: "yearly", priority: 0.6 },
   { path: "/enterprise", changeFrequency: "yearly", priority: 0.3 },
+  { path: "/tools", changeFrequency: "monthly", priority: 0.8 },
   {
     path: "/tools/missed-call-revenue-calculator",
     changeFrequency: "monthly",
