@@ -18,7 +18,7 @@ Set these on the hosting provider. Never commit their values.
 
 | Name | Where | Purpose |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Next.js host | Production origin, `https://buildwithbooz.com` |
+| `NEXT_PUBLIC_SITE_URL` | Next.js host | Production origin, `https://www.buildwithbooz.com` |
 | `CONVEX_DEPLOYMENT` | Next.js host | Production Convex deployment identifier |
 | `NEXT_PUBLIC_CONVEX_URL` | Next.js host | Production Convex URL |
 | `STRIPE_SECRET_KEY` | Next.js host | Live Stripe secret key |
@@ -31,7 +31,7 @@ Set these in the production Convex deployment environment.
 | --- | --- |
 | `RESEND_API_KEY` | Resend delivery secret |
 | `RESEND_FROM_EMAIL` | Verified sender on `resend.buildwithbooz.com` |
-| `SITE_URL` | Absolute assessment CTA origin, `https://buildwithbooz.com` |
+| `SITE_URL` | Absolute assessment CTA origin, `https://www.buildwithbooz.com` |
 
 ## Verification commands
 

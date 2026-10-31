@@ -63,7 +63,7 @@ Everyone is talking about what AI can do for a small business. Fair enough. I ta
 
 But the same week AI got cheaper and better for you, it got cheaper and better for the person trying to get into your website. Before you add AI to your business, look at what AI just made cheap to attack.
 
-If you are not sure what your site runs on or who still has access, [tell me what you are working with](https://buildwithbooz.com/contact) and I will tell you where the easy doors are.
+If you are not sure what your site runs on or who still has access, [tell me what you are working with](https://www.buildwithbooz.com/contact) and I will tell you where the easy doors are.
 
 ---
 

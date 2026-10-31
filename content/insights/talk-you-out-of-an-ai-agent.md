@@ -64,7 +64,7 @@ As someone who builds these, here is my honest position. Most of you reading thi
 
 Start with the leak, not the tool. Find the one place where calls, estimates or jobs are slipping, and fix that first. Sometimes the fix is a system. Sometimes it is a checklist and a person who owns it.
 
-If you want to know where your business actually leaks before you spend a dollar on AI, [the Gap Finder](https://buildwithbooz.com/gap-finder) takes a few minutes and shows you the areas worth looking at. Or [tell me what you are dealing with](https://buildwithbooz.com/contact) and I will tell you honestly whether an agent is the answer.
+If you want to know where your business actually leaks before you spend a dollar on AI, [the Gap Finder](https://www.buildwithbooz.com/gap-finder) takes a few minutes and shows you the areas worth looking at. Or [tell me what you are dealing with](https://www.buildwithbooz.com/contact) and I will tell you honestly whether an agent is the answer.
 
 ---
 

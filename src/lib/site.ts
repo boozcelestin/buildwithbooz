@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const siteName = "BuildWithBooz";
 export const siteDescription =
   "More booked jobs. No new ads. No new hires. I find where your business leaks calls, estimates, and jobs, then I build the systems that stop it.";
-export const productionSiteUrl = "https://buildwithbooz.com";
+export const productionSiteUrl = "https://www.buildwithbooz.com";
 
 export function getSiteUrl() {
   const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || productionSiteUrl;

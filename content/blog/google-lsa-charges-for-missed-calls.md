@@ -61,7 +61,7 @@ This is the clearest example yet of something I keep coming back to. Most servic
 
 Google just made that problem show up on the bill.
 
-If you run LSA and want a second set of eyes on where your calls are slipping, [tell me what your setup looks like](https://buildwithbooz.com/contact). I will tell you honestly whether it is worth fixing.
+If you run LSA and want a second set of eyes on where your calls are slipping, [tell me what your setup looks like](https://www.buildwithbooz.com/contact). I will tell you honestly whether it is worth fixing.
 
 ---
 

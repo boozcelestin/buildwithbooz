@@ -9,7 +9,7 @@ const validIntake = {
   email: "BOOZ@example.com",
   trade: "HVAC",
   businessName: "BuildWithBooz",
-  website: "https://buildwithbooz.com",
+  website: "https://www.buildwithbooz.com",
   phone: "3055550100",
   monthlyLeads: "40",
   averageJobValue: "500",
@@ -44,7 +44,7 @@ describe("assessment email", () => {
     expect(email.subject).toBe("Your Automation Assessment is underway");
     expect(email.text).toContain("Hi there,");
     expect(email.text).toContain(
-      "Fill out your intake\nhttps://buildwithbooz.com/assessment/thank-you?session_id=cs_test_123",
+      "Fill out your intake\nhttps://www.buildwithbooz.com/assessment/thank-you?session_id=cs_test_123",
     );
     expect(email.html).toContain("Fill out your intake");
   });

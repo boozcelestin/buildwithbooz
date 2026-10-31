@@ -43,7 +43,7 @@ function readRequiredEnvironmentValue(name: "RESEND_API_KEY" | "RESEND_FROM_EMAI
 }
 
 function assessmentUrl() {
-  const siteUrl = (process.env.SITE_URL ?? "https://buildwithbooz.com").replace(/\/+$/, "");
+  const siteUrl = (process.env.SITE_URL ?? "https://www.buildwithbooz.com").replace(/\/+$/, "");
   return `${siteUrl}/assessment`;
 }
 

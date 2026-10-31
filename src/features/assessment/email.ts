@@ -7,7 +7,7 @@ export function buildAssessmentEmail({
   sessionId: string;
   firstName?: string;
 }) {
-  const siteUrl = (process.env.SITE_URL ?? "https://buildwithbooz.com").replace(/\/+$/, "");
+  const siteUrl = (process.env.SITE_URL ?? "https://www.buildwithbooz.com").replace(/\/+$/, "");
   const intakeUrl = `${siteUrl}${intakePath}?session_id=${encodeURIComponent(sessionId)}`;
   const greeting = `Hi ${firstName?.trim() || "there"},`;
   const subject = "Your Automation Assessment is underway";

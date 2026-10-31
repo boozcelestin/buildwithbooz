@@ -4,7 +4,7 @@ import { createPageMetadata, productionSiteUrl, siteDescription } from "../../sr
 
 describe("site metadata", () => {
   it("keeps the production origin and exact site description in one place", () => {
-    expect(productionSiteUrl).toBe("https://buildwithbooz.com");
+    expect(productionSiteUrl).toBe("https://www.buildwithbooz.com");
     expect(siteDescription).toBe(
       "More booked jobs. No new ads. No new hires. I find where your business leaks calls, estimates, and jobs, then I build the systems that stop it.",
     );
