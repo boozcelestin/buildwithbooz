@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Stripe from "stripe";
 
 import { AssessmentIntakeForm } from "@/src/components/forms/AssessmentIntakeForm";
+import { PurchaseEvent } from "@/src/components/analytics/PurchaseEvent";
 import { SiteFooter } from "@/src/components/site/SiteFooter";
 import { SiteHeader } from "@/src/components/site/SiteHeader";
 import { createPageMetadata } from "@/src/lib/site";
@@ -45,6 +46,12 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
       <main id="main" className="startwrap">
         {paidSession && sessionId ? (
           <>
+            <PurchaseEvent
+              transactionId={sessionId}
+              value={(paidSession.amount_total ?? 0) / 100}
+              currency={(paidSession.currency ?? "usd").toUpperCase()}
+              item="automation_assessment"
+            />
             <p className="eyebrow">Payment received</p>
             <h1 className="starth">You are in. Here is what happens next.</h1>
             <div className="rp-body">

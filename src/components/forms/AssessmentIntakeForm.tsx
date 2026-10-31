@@ -2,6 +2,7 @@
 
 import { type FormEvent, useState } from "react";
 import posthog from "posthog-js";
+import { sendGAEvent } from "@next/third-parties/google";
 
 import { TurnstileWidget } from "./TurnstileWidget";
 
@@ -103,6 +104,7 @@ export function AssessmentIntakeForm({ sessionId, initialEmail }: AssessmentInta
       }
 
       posthog.capture("assessment_intake_submitted");
+      sendGAEvent("event", "assessment_intake_submitted", {});
       setSubmitted(true);
     } catch {
       setFormError("We could not send your intake. Please try again.");

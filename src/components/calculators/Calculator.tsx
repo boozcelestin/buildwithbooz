@@ -136,7 +136,7 @@ export function Calculator({ slug }: CalculatorProps) {
         >
           {definition.primaryCta}
         </Link>
-        <Link className="tlink" href={contextHref("/contact", slug, result)}>
+        <Link className="tlink" href={contextHref("/contact", slug, result)} onClick={() => sendGAEvent("event", "calculator_to_contact", { calculator: slug })}>
           Or tell me what you are dealing with
         </Link>
       </div>
