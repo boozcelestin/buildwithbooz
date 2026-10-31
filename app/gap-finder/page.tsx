@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { GapFinder } from "@/src/components/gap-finder/GapFinder";
+import { GapFinderExplainer } from "@/src/components/gap-finder/GapFinderExplainer";
 import { SiteFooter } from "@/src/components/site/SiteFooter";
 import { SiteHeader } from "@/src/components/site/SiteHeader";
 import { getCalculatorDefinition } from "@/src/features/calculators/definitions";
@@ -35,6 +36,7 @@ export default async function GapFinderPage({ searchParams }: GapFinderPageProps
       <SiteHeader />
       <main id="main">
         <GapFinder sourceContext={sourceContext} standalone />
+        <GapFinderExplainer />
       </main>
       <SiteFooter />
     </>
