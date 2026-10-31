@@ -15,7 +15,7 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: "What happens to my answers?",
-    a: "If you add your email, or send your results to me, your answers are saved so I can help and so the tool keeps improving. If you do not, nothing is stored. Your results show on your screen and clear when you close the page.",
+    a: "If you add your email, or send your results to me, your answers are saved so I can help and so the tool keeps getting better. If you do neither, nothing is stored. Your results show on your screen and are gone when you close the page.",
   },
   {
     q: "I came here from the calculator. Why?",
