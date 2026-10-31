@@ -2,6 +2,7 @@
 
 import { type FormEvent, useRef, useState } from "react";
 import posthog from "posthog-js";
+import { sendGAEvent } from "@next/third-parties/google";
 
 import type { LeadContext, LeadFormKind } from "@/src/features/leads/types";
 
@@ -63,6 +64,7 @@ export function LeadForm({ context, kind }: LeadFormProps) {
         has_calculator_context: Boolean(context?.calculator),
         has_gap_finder_context: Boolean(context?.gapFinder),
       });
+      sendGAEvent("event", kind === "enterprise" ? "enterprise_form_sent" : "contact_form_sent", { has_gap_finder_context: Boolean(context?.gapFinder) });
       setSubmitted(true);
     } catch {
       setFormError("We could not send your message. Please try again.");

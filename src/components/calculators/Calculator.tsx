@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
 import posthog from "posthog-js";
+import { sendGAEvent } from "@next/third-parties/google";
 
 import { calculatorDefinitions } from "@/src/features/calculators/definitions";
 import type {
@@ -63,6 +64,7 @@ export function Calculator({ slug }: CalculatorProps) {
   function calculate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     posthog.capture("calculator_calculated", { calculator: slug });
+    sendGAEvent("event", "calculator_result_shown", { calculator: slug });
     setResult(definition.calculate(numericValues(values)));
   }
 
@@ -130,6 +132,7 @@ export function Calculator({ slug }: CalculatorProps) {
         <Link
           className="btn btn-primary btn-md btn-wrap"
           href={contextHref("/gap-finder", slug, result)}
+          onClick={() => sendGAEvent("event", "calculator_to_gap_finder", { calculator: slug })}
         >
           {definition.primaryCta}
         </Link>

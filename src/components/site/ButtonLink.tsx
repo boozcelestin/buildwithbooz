@@ -9,6 +9,7 @@ type ButtonLinkProps = {
   block?: boolean;
   wrap?: boolean;
   className?: string;
+  onClick?: () => void;
 };
 
 export function ButtonLink({
@@ -19,6 +20,7 @@ export function ButtonLink({
   block = false,
   wrap = false,
   className = "",
+  onClick,
 }: ButtonLinkProps) {
   const classes = [
     "btn",
@@ -32,7 +34,7 @@ export function ButtonLink({
     .join(" ");
 
   return (
-    <Link className={classes} href={href}>
+    <Link className={classes} href={href} onClick={onClick}>
       {children}
     </Link>
   );

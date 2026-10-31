@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { type FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import posthog from "posthog-js";
+import { sendGAEvent } from "@next/third-parties/google";
 
 import { ButtonLink } from "@/src/components/site/ButtonLink";
 import { TurnstileWidget } from "@/src/components/forms/TurnstileWidget";
@@ -108,6 +109,7 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
       posthog.capture("gap_finder_started", {
         has_calculator_context: Boolean(sourceContext),
       });
+      sendGAEvent("event", "gap_finder_started", { has_calculator_context: Boolean(sourceContext) });
     }
 
     const nextOptionIds = [...optionIds, optionId];
@@ -118,6 +120,7 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
         goal: getGoalId(nextOptionIds),
         has_calculator_context: Boolean(sourceContext),
       });
+      sendGAEvent("event", "gap_finder_finished", { goal: getGoalId(nextOptionIds) });
       setCompletionToken(crypto.randomUUID());
     }
   }
@@ -140,6 +143,7 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
         goal,
         has_calculator_context: Boolean(sourceContext),
       });
+      sendGAEvent("event", "email_added_after_results", { goal });
       setEmailStatus("saved");
     } catch {
       setEmailError("We could not send your results. Please try again.");
@@ -257,7 +261,7 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
                   <ButtonLink href="/assessment" size="md" wrap>
                     See what the full assessment covers
                   </ButtonLink>
-                  <ButtonLink href={contactHref} size="md" variant="outline" wrap>
+                  <ButtonLink href={contactHref} size="md" variant="outline" wrap onClick={() => sendGAEvent("event", "send_to_booz", {})}>
                     Send this to Booz
                   </ButtonLink>
                   <Link className="tlink" href="/process">
