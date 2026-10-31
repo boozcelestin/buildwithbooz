@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Stripe from "stripe";
 
+import { PurchaseEvent } from "@/src/components/analytics/PurchaseEvent";
 import { CheckoutButton } from "@/src/components/forms/CheckoutButton";
 import { ButtonLink } from "@/src/components/site/ButtonLink";
 import { SiteFooter } from "@/src/components/site/SiteFooter";
@@ -37,11 +39,45 @@ const nextSteps = [
   "Around two weeks in you get the written Blueprint, and the first move to make. Build it with me and the five thousand comes off, or take the plan and run it yourself.",
 ] as const;
 
-export default function OperationsBlueprintPage() {
+type OperationsBlueprintPageProps = {
+  searchParams: Promise<{ checkout?: string; session_id?: string }>;
+};
+
+export default async function OperationsBlueprintPage({ searchParams }: OperationsBlueprintPageProps) {
+  const query = await searchParams;
+  const sessionId = typeof query.session_id === "string" ? query.session_id : null;
+  let paidSession: Stripe.Checkout.Session | null = null;
+
+  if (query.checkout === "success" && sessionId && process.env.STRIPE_SECRET_KEY) {
+    try {
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+        appInfo: { name: "BuildWithBooz", version: "0.1.0" },
+      });
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+      if (
+        session.payment_status === "paid" &&
+        session.metadata?.purchase === "operations_blueprint"
+      ) {
+        paidSession = session;
+      }
+    } catch {
+      paidSession = null;
+    }
+  }
+
   return (
     <>
       <SiteHeader />
       <main id="main" className="assessment-page blueprint-page">
+        {paidSession && sessionId ? (
+          <PurchaseEvent
+            transactionId={sessionId}
+            value={(paidSession.amount_total ?? 0) / 100}
+            currency={(paidSession.currency ?? "usd").toUpperCase()}
+            item="operations_blueprint"
+          />
+        ) : null}
         <section className="assessment-hero">
           <div className="container assessment-hero-inner">
             <div className="assessment-hero-copy">
