@@ -9,6 +9,7 @@ export function SiteFooter() {
         <Logo footer />
         <div className="footer-links">
           <Link href="/insights">Insights</Link>
+          <Link href="/blog">Blog</Link>
           <Link href="/services">Services</Link>
           <Link href="/process">Process</Link>
           <Link href="/about">About</Link>

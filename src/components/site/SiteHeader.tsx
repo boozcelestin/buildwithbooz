@@ -7,11 +7,12 @@ import { ButtonLink } from "./ButtonLink";
 import { Logo } from "./Logo";
 
 type SiteHeaderProps = {
-  active?: "insights" | "services" | "process" | "about";
+  active?: "insights" | "blog" | "services" | "process" | "about";
 };
 
 const links = [
   { href: "/insights", label: "Insights", key: "insights" },
+  { href: "/blog", label: "Blog", key: "blog" },
   { href: "/services", label: "Services", key: "services" },
   { href: "/process", label: "Process", key: "process" },
   { href: "/about", label: "About", key: "about" },
