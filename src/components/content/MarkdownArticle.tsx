@@ -43,7 +43,7 @@ export function MarkdownArticle({ entry, label = "Article" }: MarkdownArticlePro
         </ReactMarkdown>
       </div>
       <div className="art-cta dark-zone">
-        <h3>Want a read like this on your own business?</h3>
+        <h2>Want a read like this on your own business?</h2>
         <ButtonLink href="/gap-finder">Run the Gap Finder</ButtonLink>
       </div>
     </article>

@@ -56,6 +56,7 @@ export default function SampleAssessmentPage() {
       <SiteHeader />
       <main id="main" className="report-wrap">
         <article className="report-doc">
+          <h1 className="visually-hidden">Sample Automation Assessment</h1>
           <span className="chip">Sample Assessment</span>
           <div className="rp-banner">
             Illustrative example, not a real client. The numbers are estimates that show the shape of

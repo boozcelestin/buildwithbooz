@@ -75,6 +75,7 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
   const questionHeadingRef = useRef<HTMLHeadingElement>(null);
   const resultHeadingRef = useRef<HTMLHeadingElement>(null);
   const complete = optionIds.length === gapFinderQuestions.length;
+  const QuestionHeading = standalone ? "h2" : "h3";
   const currentQuestion = gapFinderQuestions[Math.min(optionIds.length, gapFinderQuestions.length - 1)];
   const goal = complete ? getGoalId(optionIds) : null;
   const rankedLeaks = useMemo(
@@ -177,9 +178,9 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
                 <p className="gf-count">
                   {optionIds.length + 1} / {gapFinderQuestions.length}
                 </p>
-                <h3 className="gf-q" ref={questionHeadingRef} tabIndex={-1}>
+                <QuestionHeading className="gf-q" ref={questionHeadingRef} tabIndex={-1}>
                   {currentQuestion.question}
-                </h3>
+                </QuestionHeading>
                 <div className="gf-opts">
                   {currentQuestion.options.map((option) => (
                     <button
@@ -205,13 +206,13 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
                       <span className={`gfr-tag ${index === 0 ? "hi" : "mi"}`}>
                         {index === 0 ? "High" : "Worth a look"}
                       </span>
-                      <h3
+                      <QuestionHeading
                         className="gfr-h"
                         ref={index === 0 ? resultHeadingRef : undefined}
                         tabIndex={index === 0 ? -1 : undefined}
                       >
                         {result.block.title}
-                      </h3>
+                      </QuestionHeading>
                       <p className="gfr-p">{result.block.body}</p>
                     </div>
                   ))}
