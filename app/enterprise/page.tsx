@@ -9,6 +9,7 @@ export const metadata: Metadata = createPageMetadata({
   description:
     "If you are running something bigger than a local shop, this is the place. Tell me what you are dealing with and I will get back to you personally.",
   path: "/enterprise",
+  index: false,
 });
 
 export default function EnterprisePage() {
