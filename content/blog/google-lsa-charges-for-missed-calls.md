@@ -36,6 +36,8 @@ Now it shows up on the invoice.
 
 So Google did not create a new problem. It put a price tag on an old one. A missed call used to cost you the job. Now it costs you the job and the lead fee.
 
+If you want a quick dollar figure on what that adds up to, the [Missed Call Revenue Calculator](https://www.buildwithbooz.com/tools/missed-call-revenue-calculator) turns your weekly calls into a monthly number.
+
 ## The fix is not a cheaper ad
 
 The instinct will be to cut the budget or chase a lower cost per lead. That misses it. The money is not leaking in the ad. It is leaking in the minutes after the phone rings.

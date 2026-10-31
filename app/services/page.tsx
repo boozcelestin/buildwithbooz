@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { SystemDemo } from "@/src/components/services/SystemDemo";
 import { ButtonLink } from "@/src/components/site/ButtonLink";
@@ -117,6 +118,11 @@ export default function ServicesPage() {
               </section>
             ))}
           </div>
+
+          <p className="sec-sub services-intro">
+            Curious what missed calls alone cost you? Try the{" "}
+            <Link href="/tools/missed-call-revenue-calculator">Missed Call Revenue Calculator</Link>.
+          </p>
 
           <section className="svupsell">
             <div className="svupsell-row">
