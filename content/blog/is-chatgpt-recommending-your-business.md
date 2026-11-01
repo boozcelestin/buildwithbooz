@@ -3,7 +3,7 @@ title: How to Check if ChatGPT Recommends Your Business (and What to Fix if It D
 kind: post
 order: 8
 author: Booz
-date: 2026-10-31
+date: 2026-10-27
 summary: Nearly half of consumers now use AI to find local businesses. How to test whether ChatGPT recommends your shop, where it gets its information, and what to fix this week.
 ---
 
