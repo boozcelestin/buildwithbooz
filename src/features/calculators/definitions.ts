@@ -74,7 +74,7 @@ const missedCall: CalculatorDefinition = {
     " a year in work walking to whoever picked up.",
   ],
   insight:
-    "Most people who reach a voicemail do not leave one. They call the next name on the list. A system that texts them back the second you miss the call turns most of these back into booked jobs.",
+    "Most people who reach a voicemail do not leave one. They call the next name on the list. A text back the second you miss the call can reach them before the next shop does. Not all of them. Enough to matter.",
   primaryCta: "See where else your business is leaking",
   faqs: [
     {
