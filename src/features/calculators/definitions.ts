@@ -61,7 +61,7 @@ const missedCall: CalculatorDefinition = {
     {
       id: "closerate",
       label: "Of the callers you reach, the percent who become customers",
-      defaultValue: 50,
+      defaultValue: 30,
       suffix: "%",
     },
   ],
@@ -78,19 +78,39 @@ const missedCall: CalculatorDefinition = {
   primaryCta: "See where else your business is leaking",
   faqs: [
     {
-      question: "How is the cost of a missed call calculated?",
+      question: "How is the cost of a missed call worked out?",
       answer:
-        "We take the calls you miss, apply how often you would have won that job, and multiply by the value of the job. It is an estimate to show the scale, not a promise.",
+        "We take the calls you miss each week, apply how often you would have won that job, and multiply by what the job is worth. A month is counted as 4.3 weeks. It is an estimate to show the scale, not a promise.",
     },
     {
       question: "Do people really not leave a voicemail?",
       answer:
-        "Most do not. When someone has an urgent problem, they call the next business. The one who answers, or texts back fast, usually wins the job.",
+        "Most say they do not. In a CallRail survey of 1,000 US consumers, 42% said they leave a voicemail when a business does not answer. The rest hang up, and about one in five call another business right away.",
+    },
+    {
+      question: "What counts as a missed call?",
+      answer:
+        "Any call you do not answer live. A call that rings out counts. A call that goes to voicemail counts. A call that comes in after hours and never gets returned counts. If someone with a problem could not reach a person at your shop, that is a miss.",
+    },
+    {
+      question: "How many missed calls turn into lost jobs?",
+      answer:
+        "Nobody knows for sure, and anyone who gives you an exact number is guessing. Some callers try again. Some were only price shopping. The close rate field above is where you set your own honest guess. Start low.",
     },
     {
       question: "What fixes this?",
       answer:
-        "An automatic text back the moment a call is missed, so the customer hears from you in seconds instead of never. That is the Lead Response system.",
+        "It depends on the caller. A text back the moment a call is missed reaches people in seconds, and it is usually the cheapest fix. It does not help the caller who needs a person right now. That is where an answering service, or a second person on the phone, comes in. Our Lead Response System is built around a fast text back, and if it is not the right fix for your shop, we will tell you.",
+    },
+    {
+      question: "What is the difference between missed call text back and an answering service?",
+      answer:
+        "A text back sends an automatic message the second you miss a call, so the caller hears from you in seconds instead of never. An answering service puts a live person on the phone for you. One is instant, cheap and quiet. The other is human and costs more.",
+    },
+    {
+      question: "Does this work for my trade?",
+      answer:
+        "Yes. The math is the same for any shop that lives on the phone. What changes by trade is the job value and how urgent the call is, which is what the sections above are for.",
     },
   ],
   calculate(values) {

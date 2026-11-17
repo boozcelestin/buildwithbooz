@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import posthog from "posthog-js";
 import { sendGAEvent } from "@next/third-parties/google";
 
@@ -14,6 +14,7 @@ import type {
 
 type CalculatorProps = {
   slug: CalculatorSlug;
+  showFaq?: boolean;
 };
 
 function initialValues(slug: CalculatorSlug) {
@@ -54,18 +55,32 @@ function contextHref(path: "/gap-finder" | "/contact", slug: CalculatorSlug, res
   return `${path}?${params.toString()}`;
 }
 
-export function Calculator({ slug }: CalculatorProps) {
+export function Calculator({ slug, showFaq = true }: CalculatorProps) {
   const definition = calculatorDefinitions[slug];
   const [values, setValues] = useState<Record<string, string>>(() => initialValues(slug));
   const [result, setResult] = useState<CalculatorResult | null>(() =>
     definition.calculate(numericValues(initialValues(slug))),
   );
 
+  const resultRef = useRef<HTMLDivElement>(null);
+  const [revealCount, setRevealCount] = useState(0);
+
+  useEffect(() => {
+    if (revealCount === 0 || !resultRef.current) {
+      return;
+    }
+
+    // On a phone the result sits below the button, so bring it into view after each tap.
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    resultRef.current.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
+  }, [revealCount]);
+
   function calculate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     posthog.capture("calculator_calculated", { calculator: slug });
     sendGAEvent("event", "calculator_result_shown", { calculator: slug });
     setResult(definition.calculate(numericValues(values)));
+    setRevealCount((count) => count + 1);
   }
 
   return (
@@ -111,7 +126,7 @@ export function Calculator({ slug }: CalculatorProps) {
         </button>
       </form>
 
-      <div className="tool-result-card dark-zone" aria-live="polite">
+      <div className="tool-result-card dark-zone" aria-live="polite" ref={resultRef}>
         {result ? (
           <div>
             <p className={`tool-result-big${result.tone ? ` ${result.tone}` : ""}`}>
@@ -141,14 +156,16 @@ export function Calculator({ slug }: CalculatorProps) {
         </Link>
       </div>
 
-      <section className="tool-faq">
-        {definition.faqs.map((faq) => (
-          <div className="tool-faq-item" key={faq.question}>
-            <h2 className="tool-faq-question">{faq.question}</h2>
-            <p className="tool-faq-answer">{faq.answer}</p>
-          </div>
-        ))}
-      </section>
+      {showFaq ? (
+        <section className="tool-faq">
+          {definition.faqs.map((faq) => (
+            <div className="tool-faq-item" key={faq.question}>
+              <h2 className="tool-faq-question">{faq.question}</h2>
+              <p className="tool-faq-answer">{faq.answer}</p>
+            </div>
+          ))}
+        </section>
+      ) : null}
     </div>
   );
 }

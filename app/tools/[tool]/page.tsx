@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Calculator } from "@/src/components/calculators/Calculator";
+import { MissedCallHub } from "@/src/components/calculators/MissedCallHub";
 import { SiteFooter } from "@/src/components/site/SiteFooter";
 import { SiteHeader } from "@/src/components/site/SiteHeader";
 import {
@@ -81,17 +82,8 @@ export default async function CalculatorPage({ params }: CalculatorPageProps) {
     <>
       <SiteHeader />
       <main className="tool-page" id="main">
-        <Calculator slug={definition.slug} />
-        {showTradeSections ? (
-          <>
-            {/*
-              TRADE SECTIONS SLOT — content lane fills this later.
-              Add short HVAC, plumbing, electrical and roofing sections here
-              (server-rendered, H2 per trade). Leave empty until the copy is approved.
-            */}
-            <section id="trade-sections" data-content-slot="trade-sections" aria-hidden="true" />
-          </>
-        ) : null}
+        <Calculator slug={definition.slug} showFaq={!showTradeSections} />
+        {showTradeSections ? <MissedCallHub /> : null}
       </main>
       <SiteFooter />
       <script

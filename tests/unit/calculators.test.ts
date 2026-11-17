@@ -19,10 +19,10 @@ describe("calculator formulas", () => {
     const result = calculateDefaults(calculatorDefinitions["missed-call-revenue-calculator"]);
 
     expect(result).toMatchObject({
-      big: "$7,740",
+      big: "$4,644",
       tone: "bad",
-      contextValue: "7740",
-      values: { monthly: "$7,740", yearly: "$92,880" },
+      contextValue: "4644",
+      values: { monthly: "$4,644", yearly: "$55,728" },
     });
   });
 

@@ -29,8 +29,8 @@ export default function ToolsPage() {
           <div className="page-head">
             <h1 className="page-h1">Free tools</h1>
             <p className="page-sub">
-              Quick calculators that show where a trades business is leaking money. No signup, no
-              email.
+              Quick calculators that show where a trades business is leaking money, and the first
+              thing to do about it. No signup, no email.
             </p>
           </div>
           <ul className="tools-list">
