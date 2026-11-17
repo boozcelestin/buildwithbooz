@@ -2313,6 +2313,65 @@ a {
   font: inherit;
 }
 
+.art-table-wrap {
+  margin-top: 26px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.art-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.art-table-wrap th,
+.art-table-wrap td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e6e4de;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.art-table-wrap th {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #555555;
+  border-bottom: 2px solid #111111;
+}
+
+.art-table-wrap td:empty,
+.art-table-wrap th:empty {
+  padding: 0 6px;
+  border-bottom-color: transparent;
+}
+
+@media (max-width: 600px) {
+  .art-table-wrap table {
+    font-size: 14px;
+  }
+
+  .art-table-wrap th,
+  .art-table-wrap td {
+    padding: 9px 6px;
+    white-space: normal;
+  }
+
+  .art-table-wrap th {
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+
+  .art-table-wrap td:empty,
+  .art-table-wrap th:empty {
+    padding: 0 3px;
+  }
+}
+
 .content-image {
   width: 100%;
   height: auto;

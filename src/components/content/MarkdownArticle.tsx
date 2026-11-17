@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import type { ContentEntry } from "@/src/types/content";
 
@@ -24,8 +25,14 @@ export function MarkdownArticle({ entry, label = "Article" }: MarkdownArticlePro
       </p>
       <div className="art-body">
         <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
           components={{
             blockquote: ({ children }) => <blockquote className="art-quote">{children}</blockquote>,
+            table: ({ children }) => (
+              <div className="art-table-wrap" role="region" aria-label="Table" tabIndex={0}>
+                <table>{children}</table>
+              </div>
+            ),
             img: ({ src, alt }) =>
               typeof src === "string" ? (
                 <Image
