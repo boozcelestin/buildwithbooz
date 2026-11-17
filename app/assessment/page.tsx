@@ -15,6 +15,15 @@ export const metadata: Metadata = createPageMetadata({
   path: "/assessment",
 });
 
+function PayNote() {
+  return (
+    <p className="assessment-pay-note">
+      By paying you agree to the <Link href="/terms">Terms</Link>. Questions first? Email{" "}
+      <a href="mailto:booz@buildwithbooz.com">booz@buildwithbooz.com</a>.
+    </p>
+  );
+}
+
 function AssessmentCheckoutButton({ size = "md" }: { size?: "md" | "lg" }) {
   return (
     <CheckoutButton product="assessment" size={size}>
@@ -61,6 +70,7 @@ export default function AssessmentPage() {
                   See a real example first
                 </ButtonLink>
               </div>
+              <PayNote />
               <p className="assessment-routing">
                 Running more than a couple of crews, more than one location, or a full office? The
                 thousand dollar assessment will miss too much of a business your size. Start with the{" "}
@@ -202,17 +212,25 @@ export default function AssessmentPage() {
                 <div className="entry-actions">
                   <AssessmentCheckoutButton />
                 </div>
+                <PayNote />
               </div>
             </div>
             <div className="assessment-risk">
-              <h3 className="assessment-subheading">Read it first. Then decide if it was worth it.</h3>
+              <h3 className="assessment-subheading">What the thousand covers</h3>
               <p className="assessment-body">
-                I take the risk here, not you. Pay, and within 48 hours you get the full assessment.
-                Read the whole thing. If you do not believe it was worth the thousand, tell me within
-                fourteen days and I will refund every dollar, and you keep the plan anyway. Before any
-                refund, just tell me what was missing, so I can make it right first. On top of that, if
-                you have me build the fixes, the thousand comes off the price. The only way this costs
-                you anything is if it earns it.
+                The thousand pays for the diagnosis. If I build the top fix, it comes off the price. If I
+                don&apos;t, the plan is still yours, to run yourself or to hand to someone else.
+              </p>
+              <p className="assessment-body">
+                The fee isn&apos;t refunded once work starts. The{" "}
+                <Link className="tlink" href="/terms">
+                  Terms
+                </Link>{" "}
+                have the details. Read the{" "}
+                <Link className="tlink" href="/sample-assessment">
+                  sample
+                </Link>{" "}
+                before you pay.
               </p>
             </div>
           </div>
@@ -305,6 +323,7 @@ export default function AssessmentPage() {
               proceed, in 48 hours.
             </p>
             <AssessmentCheckoutButton size="lg" />
+            <PayNote />
           </div>
         </section>
       </main>

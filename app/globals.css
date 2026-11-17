@@ -2792,6 +2792,33 @@ a {
   line-height: 1.25;
 }
 
+.assessment-pay-note {
+  max-width: 520px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.assessment-pay-note a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.entry-side .assessment-pay-note {
+  margin-left: auto;
+  max-width: 260px;
+}
+
+.assessment-close .assessment-pay-note {
+  color: #bdbdb8;
+}
+
+.assessment-close .assessment-pay-note a {
+  color: #ffffff;
+}
+
 .assessment-about-grid {
   display: grid;
   grid-template-columns: 300px minmax(0, 700px);
