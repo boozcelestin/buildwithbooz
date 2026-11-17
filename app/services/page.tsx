@@ -95,6 +95,13 @@ export default function ServicesPage() {
             These are the fixes we build most often. Your assessment might point to one of these, a few
             together, or something else entirely. We build what pays, not a package.
           </p>
+          <p className="sec-sub services-intro">
+            Every system comes with its install setup. We adjust the parts of your website, phone and
+            email that the system depends on, like a tap to call button, the after hours message, or the
+            email settings that keep your follow ups out of spam. Done once, as part of the install. If
+            your site needs a full rebuild, we will point you to someone who does that well. We stay the
+            systems people.
+          </p>
           <div className="svlist">
             {systems.map((system) => (
               <section className="svrow svrow-demo" key={system.title}>

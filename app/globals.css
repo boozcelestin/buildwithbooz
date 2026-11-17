@@ -645,6 +645,31 @@ a {
   line-height: 1.6;
 }
 
+.gfr-fix {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--wash);
+  border-left: 2px solid var(--yellow);
+  border-radius: 6px;
+}
+
+.gfr-fix-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #555555;
+}
+
+.gfr-fix-p {
+  font-size: 14px;
+  color: #222222;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
 .gfr-note {
   font-family: var(--mono);
   font-size: var(--fs-micro);
@@ -2790,8 +2815,8 @@ a {
 
 .assessment-steps {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
   padding: var(--s6) 0 var(--s2);
 }
 

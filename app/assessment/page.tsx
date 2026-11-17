@@ -35,6 +35,7 @@ const nextSteps = [
   "I read your business against your answers and find the leak that matters most.",
   "Within 48 hours you get the written assessment, ranked and ready.",
   "Want me to build the top fix? We start, and the thousand comes off. If not, no follow up, no pressure. You keep the plan either way.",
+  "If I build it, the setup it needs on your site, phone and email is part of the install. Anything bigger, like a new website, I will point you to the right person.",
 ] as const;
 
 export default function AssessmentPage() {

@@ -218,6 +218,10 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
                         {result.block.title}
                       </QuestionHeading>
                       <p className="gfr-p">{result.block.body}</p>
+                      <div className="gfr-fix">
+                        <span className="gfr-fix-label">The first fix</span>
+                        <p className="gfr-fix-p">{result.block.plan}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
