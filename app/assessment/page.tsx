@@ -67,7 +67,7 @@ export default function AssessmentPage() {
               <div className="assessment-actions">
                 <AssessmentCheckoutButton size="lg" />
                 <ButtonLink href="/sample-assessment" variant="outline" size="lg" wrap>
-                  See a real example first
+                  See a sample first
                 </ButtonLink>
               </div>
               <PayNote />
@@ -164,7 +164,7 @@ export default function AssessmentPage() {
                   or run it yourself. The plan does not expire and it does not lock you into anything.
                 </p>
                 <ButtonLink href="/sample-assessment" variant="outline" size="md" wrap>
-                  See a real sample assessment
+                  Read the sample assessment
                 </ButtonLink>
               </div>
             </div>
