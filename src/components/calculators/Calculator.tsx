@@ -147,11 +147,17 @@ export function Calculator({ slug, showFaq = true }: CalculatorProps) {
         <Link
           className="btn btn-primary btn-md btn-wrap"
           href={contextHref("/gap-finder", slug, result)}
-          onClick={() => sendGAEvent("event", "calculator_to_gap_finder", { calculator: slug })}
+          onClick={() => {
+            posthog.capture("calculator_to_gap_finder", { calculator: slug });
+            sendGAEvent("event", "calculator_to_gap_finder", { calculator: slug });
+          }}
         >
           {definition.primaryCta}
         </Link>
-        <Link className="tlink" href={contextHref("/contact", slug, result)} onClick={() => sendGAEvent("event", "calculator_to_contact", { calculator: slug })}>
+        <Link className="tlink" href={contextHref("/contact", slug, result)} onClick={() => {
+          posthog.capture("calculator_to_contact", { calculator: slug });
+          sendGAEvent("event", "calculator_to_contact", { calculator: slug });
+        }}>
           Or tell me what you are dealing with
         </Link>
       </div>

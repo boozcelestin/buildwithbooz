@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { sendGAEvent } from "@next/third-parties/google";
+import posthog from "posthog-js";
 
 type PurchaseEventProps = {
   transactionId: string;
@@ -26,6 +27,7 @@ export function PurchaseEvent({ transactionId, value, currency, item }: Purchase
       return;
     }
 
+    posthog.capture("purchase", { transaction_id: transactionId, value, currency, item });
     sendGAEvent("event", "purchase", {
       transaction_id: transactionId,
       value,

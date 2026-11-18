@@ -265,7 +265,10 @@ export function GapFinder({ sourceContext, standalone = false }: GapFinderProps)
                   <ButtonLink href="/assessment" size="md" wrap>
                     See what the full assessment covers
                   </ButtonLink>
-                  <ButtonLink href={contactHref} size="md" variant="outline" wrap onClick={() => sendGAEvent("event", "send_to_booz", {})}>
+                  <ButtonLink href={contactHref} size="md" variant="outline" wrap onClick={() => {
+                    posthog.capture("send_to_booz");
+                    sendGAEvent("event", "send_to_booz", {});
+                  }}>
                     Send this to Booz
                   </ButtonLink>
                   <Link className="tlink" href="/process">
