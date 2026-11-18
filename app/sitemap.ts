@@ -16,6 +16,7 @@ const staticEntries: SitemapEntry[] = [
   { path: "/operations-blueprint", changeFrequency: "monthly", priority: 0.9 },
   { path: "/gap-finder", changeFrequency: "monthly", priority: 0.9 },
   { path: "/insights", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/insights/miami-roof-window", changeFrequency: "monthly", priority: 0.7 },
   { path: "/process", changeFrequency: "monthly", priority: 0.7 },
   { path: "/about", changeFrequency: "yearly", priority: 0.6 },
   { path: "/sample-assessment", changeFrequency: "monthly", priority: 0.7 },

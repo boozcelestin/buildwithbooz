@@ -63,6 +63,17 @@ export default async function InsightsPage() {
           <p className="eyebrow">Articles</p>
         </div>
         <div className="blog-grid">
+          <ContentCard
+            bars={[
+              { color: "yellow", width: "40%" },
+              { color: "ink" },
+              { width: "85%" },
+              { color: "green", width: "60%" },
+            ]}
+            href="/insights/miami-roof-window"
+            label="Article"
+            title="How many cool, dry hours does a Miami roofer get each month?"
+          />
           {articles.map((entry, index) => (
             <ContentCard
               bars={articleBars[index] ?? articleBars[0]}
